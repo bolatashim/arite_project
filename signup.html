@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <link rel = "stylesheet" href = "styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+  <body>
+
+    <div class="header-content-inner">
+               <h1>Welcome to A'rite.</h1>
+               <h1>Create your account to join!</h1>
+
+           </div>
+
+    <form action="/action_page.php">
+      <div class="container">
+        <label><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required>
+
+        <label><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <label><b>Institution</b></label>
+        <input type="institution" placeholder="ex) KAIST" name="institution" required>
+
+        <form action="#">
+              <input name="group1" type="radio" id="test1" />
+              <label for="test1">Male</label>
+              <input name="group1" type="radio" id="test2" />
+              <label for="test2">Female</label>
+              <input class="group1" name="group1" type="radio" id="test3"  />
+              <label for="test3">Other</label>
+          </form>
+        </br>
+          <form action="#">
+                <input name="group2" type="radio" id="test11" />
+                <label for="test11">Undergrad</label>
+                <input name="group2" type="radio" id="test12" />
+                <label for="test12">Graduate</label>
+                <input class="group2" name="group2" type="radio" id="test13"  />
+                <label for="test13">Professor</label>
+                <input class="group2" name="group2" type="radio" id="test14"  />
+                <label for="test14">Worker</label>
+            </form>
+
+
+        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+        <div class="clearfix">
+          <button type="button"  class="cancelbtn">Cancel</button>
+          <button type="submit" class="signupbtn">Sign Up</button>
+        </div>
+      </div>
+    </form>
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="signup.js"></script>
+
+
+
+
+
+  </body>
+</head>
+</html>
