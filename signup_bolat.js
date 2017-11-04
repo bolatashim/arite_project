@@ -12,40 +12,55 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
   var usersReference = database.ref("users");
-
+  
+  const emailtxt = document.getElementById("email");
   const passwordtxt = document.getElementById("password");
-  const emailtxt = document.getElementById("username");
+  const institutiontxt = document.getElementById("institution");
   const registerbtn = document.getElementById("registerbtn");
+  var occupation = "Undergrad";
+  var gender = "Man";
+  var age = 20;
 
   function addUser(user) {
     usersReference.push({
       email: user.email,
-      location: "Daejeon",
-      institution: "KAIST",
-      gender: "male",
-      occupation: "undergrad"
+      institution: institutiontxt.value,
+      gender: gender,
+      occupation: occupation,
+      age: age,
+      avatar: 0
     });
     alert("You are signed up!!!");
   }
 
   //registration event listener
-  btnregister.addEventListener("click", e => {
+  registerbtn.addEventListener("click", e => {
     const email = emailtxt.value;
     const password = passwordtxt.value;
     const auth = firebase.auth();
 
-    const promise = auth.createUserWithEmailAndPassword(email, pass);
+    const promise = auth.createUserWithEmailAndPassword(email, password);
     promise
       .then(user => addUser(user))
       .catch(e => console.log(e.message));
   });
 
+  $('input[name="age"]', '#ages').on('change', function() {
+    age = $(this).val();
+  });
 
 
+  $('input[name="gender_group"]', '#genders').on('change', function() {
+    if($(this).is(':checked')) {
+        gender = $(this).val();
+    }
+  });
 
-
-
-
+  $('input[name="occupation_group"]', '#occupations').on('change', function() {
+    if($(this).is(':checked')) {
+        occupation = $(this).val();
+    }
+  });
 
 
 });
