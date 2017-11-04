@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400">
+  <link rel="stylesheet" type="text/css" href="input.css">
 <form id="input-feeling" action="..../Position.js">
-  <p>Hello, A'rite. How do you feel today?</p>
-  <p>Today I felt
-    <input type="text" name = "feeling" placeholder=".........." /></p>
-  <p>because
-    <input type= "text" name = "reason" placeholder = ".........."/></p>
-  <input type="button" onclick="sending()" value="Submit">
-   <script>
+ <h1> Today I felt</h1>
+ <input id="feeling" type = "text" placeholder="" ></textarea>
+<input id="reason" type = "text" placeholder="Because" required = "" ></textarea>
+<button type="button" onclick="myFunction()" value="Submit">Submit</button>
+<script>
   function sending() {
     document.getElementById("input-feeling").submit();
   }
