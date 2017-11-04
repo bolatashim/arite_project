@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form id="input-feeling" action="..../Position.js">
+  <p>Hello, A'rite. How do you feel today?</p>
+  <p>Today I felt
+    <input type="text" name = "feeling" placeholder=".........." /></p>
+  <p>because
+    <input type= "text" name = "reason" placeholder = ".........."/></p>
+  <input type="button" onclick="sending()" value="Submit">
+   <script>
+  function sending() {
+    document.getElementById("input-feeling").submit();
+  }
+  </script>
+</form>
+  </body>
+</html>
