@@ -1,7 +1,7 @@
 var AVAT_HEIGHT = 50;
 var AVAT_WIDTH = 50;
-var WIDTH = 600;
-var HEIGHT = 500;
+var WIDTH = 800;
+var HEIGHT = 600;
 var TEXT_SIZE = 50
 var username = 'cena'
 $( document ).ready(function() {
@@ -9,7 +9,11 @@ $( document ).ready(function() {
     $('body').append("asd")
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
-
+    var background = new Image();
+    background.src = "emotion_graph_800_600.png"
+    background.onload = function(){
+      context.drawImage(background,0,0)
+    }
     canvas.addEventListener('click', function(evt) {
       var mousePos = getMousePos(canvas, evt);
       var message = '' + parseInt(mousePos.x) + ',' +  parseInt(mousePos.y);
@@ -26,10 +30,10 @@ $( document ).ready(function() {
 });
 function writeMessage(canvas, message) {
     var context = canvas.getContext('2d');
-    context.clearRect(WIDTH, HEIGHT - TEXT_SIZE, canvas.width, canvas.height);
+    context.clearRect(WIDTH, HEIGHT, canvas.width, canvas.height);
     context.font = TEXT_SIZE + 'pt Calibri';
     context.fillStyle = 'black';
-    context.fillText(message, WIDTH, HEIGHT);
+    context.fillText(message, WIDTH, HEIGHT+TEXT_SIZE);
 }
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
