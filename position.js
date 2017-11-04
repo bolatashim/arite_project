@@ -21,7 +21,7 @@ $( document ).ready(function() {
       avatar = new Image();
       avatar.src = username + "_avatar.png";
       avatar.onload = function(){
-        context.drawImage(avatar,mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2);
+        context.drawImage(avatar,mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2, AVAT_WIDTH, AVAT_HEIGHT);
       }
       //context.fillStyle = 'green'
       //context.fillRect(mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2,AVAT_HEIGHT,AVAT_WIDTH);
