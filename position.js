@@ -3,6 +3,7 @@ var AVAT_WIDTH = 50;
 var WIDTH = 600;
 var HEIGHT = 500;
 var TEXT_SIZE = 50
+var username = 'cena'
 $( document ).ready(function() {
     console.log( "ready!" );
     $('body').append("asd")
@@ -11,10 +12,15 @@ $( document ).ready(function() {
 
     canvas.addEventListener('click', function(evt) {
       var mousePos = getMousePos(canvas, evt);
-      var message = '' + mousePos.x + ',' + mousePos.y;
+      var message = '' + parseInt(mousePos.x) + ',' +  parseInt(mousePos.y);
       writeMessage(canvas, message);
-      context.fillStyle = 'green'
-      context.fillRect(mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2,AVAT_HEIGHT,AVAT_WIDTH);
+      avatar = new Image();
+      avatar.src = username + "_avatar.png";
+      avatar.onload = function(){
+        context.drawImage(avatar,mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2);
+      }
+      //context.fillStyle = 'green'
+      //context.fillRect(mousePos.x - AVAT_WIDTH/2,mousePos.y - AVAT_HEIGHT/2,AVAT_HEIGHT,AVAT_WIDTH);
     }, false);
 
 });
