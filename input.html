@@ -3,9 +3,9 @@
 <body>
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400">
   <link rel="stylesheet" type="text/css" href="input.css">
-<form id="input-feeling" action="..../Position.js">
+<form id="input-feeling" onsubmit="reallySend()">
  <h1> Today I felt</h1>
- <select>
+ <select id="input-feeling-select">
         <option selected>Select</option>
         <option>Happy</option>
         <option>Sad</option>
@@ -15,13 +15,20 @@
         <option>Sleepy</option>
         <option>Angry</option>
   </select>
+
 <input id="reason" type = "text" placeholder="Because" required = "" ></textarea>
-<button type="button" onclick="myFunction()" value="Submit">Submit</button>
+</form>
+<button type="button" onclick="reallySend()" value="Submit">Submit</button>
+
 <script>
   function sending() {
     document.getElementById("input-feeling").submit();
   }
+  function reallySend() {
+    var feeling = document.getElementById("input-feeling-select").value;
+    var reason = document.getElementById("reason").value;
+    window.location = "new_pos.html?" + "feeling=" + feeling + "&reason=" + reason;
+  }
   </script>
-</form>
   </body>
 </html>
