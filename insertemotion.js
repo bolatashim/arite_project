@@ -1,5 +1,7 @@
-
 $(document).ready(function() {
+  var feeling = "Happy";
+  var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
+
 
 
   //initialize firebase
@@ -12,14 +14,13 @@ $(document).ready(function() {
     messagingSenderId: "281398737861"
   };
 
-  var feeling = "Happy";
-  var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
+
 
   firebase.initializeApp(config);
   var database = firebase.database();
-  
+
   var usersReference = database.ref("users");
-  
+
 
       var filename = 'avatar.png';
       var AVAT_HEIGHT = 50;
@@ -49,10 +50,10 @@ $(document).ready(function() {
                   var thetime = finput.val().date;
                   if (thetime == GetTodayDate()){
                     dataset.push({
-                      x: finput.val().xpos, 
-                      y: finput.val().ypos, 
+                      x: finput.val().xpos,
+                      y: finput.val().ypos,
                       "xlink:href": user.val().avatar + filename,
-                      height:50, 
+                      height:50,
                       width:50
                     });
                   }
@@ -64,7 +65,7 @@ $(document).ready(function() {
             //console.log("bloody hell");
         });
       }
-      
+
 
 
       // We're passing in a function in d3.max to tell it what we're maxing (x value)
@@ -131,7 +132,7 @@ $(document).ready(function() {
 
       // On Click, we want to add data to the array and chart
       svg.on("click", function() {
-          
+
           var coords = d3.mouse(this);
           console.log(coords[0])
           console.log(xScale.invert(coords[0]))
@@ -139,6 +140,7 @@ $(document).ready(function() {
           var newData= {
             x: Math.round( xScale.invert(coords[0])),  // Takes the pixel number to convert to number
             y: Math.round( yScale.invert(coords[1])),
+
             height:50,
             width:50,
             "xlink:href": "1avatar.png"
@@ -158,7 +160,8 @@ $(document).ready(function() {
         })
 
       // Create Event Handlers for mouse
-      function handleMouseOver(d, i) {  // Add interactivity
+      function handleMouseOver(d, i) { // Add interactivity
+
 
             // Use D3 to select element, change color and size
             d3.select(this).attr({
@@ -173,7 +176,8 @@ $(document).ready(function() {
                 y: function() { return yScale(d.y) - 15; }
             })
             .text(function() {
-              return [d.x, d.y];  // Value of the text
+              console.log(feeling);
+              return (window.feeling + " because " + window.reason);
             });
           }
 
@@ -187,10 +191,10 @@ $(document).ready(function() {
             // Select text by id and then remove
             d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
           }
-  
+
   //var feeling = $("#feeling").text();
   //var reason = $("#reason").text();
- 
+
 
   function insertNewFeeling(xpos, ypos, feeling, reason) {
     usersReference.once("value", function(snap){
@@ -205,7 +209,7 @@ $(document).ready(function() {
         });
       });
 
-    });    
+    });
   }
 
   function GetTodayDate() {
