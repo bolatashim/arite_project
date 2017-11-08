@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
   $('.modal').modal();
-
+  const RADIUS = 200
   //initialize firebase
   var config = {
     apiKey: "AIzaSyBIuiGklPwChoeJ2PFWQVOJCvhO82Dbh0o",
@@ -68,30 +68,29 @@ $(document).ready(function() {
 
 
 
-      // We're passing in a function in d3.max to tell it what we're maxing (x value)
+      // TODO remove these scalings
       var xScale = d3.scale.linear()
           .domain([0, 800])
-          .range([margin.left, w - margin.right]);  // Set margins for x specific
+          .range([0, 800]);  // Set margins for x specific
 
-      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+
       var yScale = d3.scale.linear()
           .domain([0, 600])
-          .range([margin.top, h - margin.bottom]);  // Set margins for y specific
+          .range([0, 600]);  // Set margins for y specific
 
-      // Add a X and Y Axis (Note: orient means the direction that ticks go, not position)
       var xAxis = d3.svg.axis().scale(xScale).orient("top");
       var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
       var circleAttrs = {
-          x: function(d) { return xScale(d.x) - AVAT_WIDTH/2; },
-          y: function(d) { return yScale(d.y) - AVAT_HEIGHT/2; },
+          x: function(d) { return d.x - AVAT_WIDTH/2; },
+          y: function(d) { return d.y - AVAT_HEIGHT/2; },
           "xlink:href": "1avatar.png",
           height:AVAT_HEIGHT,
           width:AVAT_WIDTH,
           r: radius,
           id:"avatar",
+          transition:"opacity 1s linear"
           //transition:"visibility 0.3s linear"   TODO
-
           //visibility:"hidden"
 
       };
@@ -108,15 +107,6 @@ $(document).ready(function() {
         "class": "axis",
         transform: "translate(" + [margin.left, 0] + ")"
       }).call(yAxis);  // Call the yAxis function on the group
-      /*
-      svg.selectAll("circle")
-          .data(dataset)
-          .enter()
-          .append("circle")
-          .attr(circleAttrs)  // Get attributes from circleAttrs var
-          .on("mouseover", handleMouseOver)
-          .on("mouseout", handleMouseOut);
-      */
 
       svg.selectAll("image")
           .data(dataset)
@@ -137,14 +127,14 @@ $(document).ready(function() {
 
       // On Click, we want to add data to the array and chart
       svg.on("click", function() {
-
+          svg.selectAll("circle").remove()
           var coords = d3.mouse(this);
           console.log(coords[0])
-          console.log(Math.round(xScale.invert(coords[0])))
+          console.log(Math.round(coords[0]))
           //Normally we go from data to pixels, but here we're doing pixels to data
           var newData= {
-            x: Math.round( xScale.invert(coords[0])),  // Takes the pixel number to convert to number
-            y: Math.round( yScale.invert(coords[1])),
+            x: Math.round( coords[0]),  // Takes the pixel number to convert to number
+            y: Math.round( coords[1]),
             height:50,
             width:50,
             "xlink:href": "1avatar.png"
@@ -160,14 +150,22 @@ $(document).ready(function() {
             .on("mouseout", handleMouseOut);
 
           console.log(newData);
+          riffle = svg.append("circle")
+            .attr('cx',coords[0])
+            .attr('cy',coords[1])
+            .attr('r',0)
+            .attr('fill','none')
+            .attr('stroke','black')
+
+          riffle.transition().duration(100)
+            .attr('r',RADIUS)
+
           d3.selectAll("#avatar")
                 .data(dataset)
-                .transition()
-                .duration(5000)
                 .attr("visibility",function(d,i){
                   //console.log(distance(newData,d))
                   //console.log(" " + distance(newData,d) + " $ " + 500)
-                  if(distance(newData,d) < 50000){
+                  if(distance_squared(newData,d) < RADIUS*RADIUS){
                     return "visible"
                   }
                   else{
@@ -177,17 +175,8 @@ $(document).ready(function() {
 
                 });
 
-
-
-
-
-
-          // adding new point
-
-
-
         })
-  function distance(a,b){
+  function distance_squared(a,b){
     return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
   }
       // Create Event Handlers for mouse
@@ -202,8 +191,8 @@ $(document).ready(function() {
     // Specify where to put label of text
     svg.append("text").attr({
        id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
-        x: function() { return xScale(d.x) - 30; },
-        y: function() { return yScale(d.y) - 15; }
+        x: function() { return d.x - 30; },
+        y: function() { return d.y - 15; }
     })
     .text(function() {
       return [d.x, d.y];  // Value of the text
