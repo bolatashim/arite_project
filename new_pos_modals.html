@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- How to create Mouse Events for D3 -->
+<html>
+
+  <head>
+    <!-- Load D3 from site -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- CSS (Styling) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <style type="text/css">
+
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 11px;
+      }
+
+      .axis path, .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;  /* Round any decimal pixels so it'll render nicely */
+      }
+
+      .btn-thehuge {
+        height: 120px;
+        width: 120px;
+        line-height: 185px;
+        padding: 0 0 rem;
+      }
+
+      .dropAvatarClass {
+        
+        background-color: blue;
+        cursor: url(0avatar.gif), auto;
+
+      }
+
+    </style>
+  
+  </head>
+
+  <body>
+    <div class="fixed-action-btn click-to-toggle" style="margin: 150px; ">
+      <a class="btn-floating btn-thehuge">
+        <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 80px">add</i>
+      </a>
+    </div>
+
+      <!-- Modal Trigger -->
+    <!-- <a class="waves-effect waves-light btn modal-trigger">Modal</a> -->
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
+        
+        <h3>How do you feel today?</h3>
+        <form>
+          <select id="input-feeling-select">
+            <option selected>Select</option>
+            <option>Happy</option>
+            <option>Sad</option>
+            <option>Excited</option>
+            <option>Tired</option>
+            <option>Relaxed</option>
+            <option>Sleepy</option>
+            <option>Angry</option>
+          </select>
+        <input id="reason" type = "text" placeholder="Because" required ></textarea>
+        </form>
+        <p id="message" style="color: red"></p>
+        <div class="modal-footer">
+        <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
+          <a class="modal-action waves-effect waves-green btn-flat" onclick="cancelModal()">Cancel</a>
+          <button class="btn waves-effect waves-light" type="submit" name="action" onclick="feelingSubmit()"> Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </div>
+          
+
+
+
+  
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="script/jquery.query-object.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <!-- Begin Javascript -->
+    <script src="insertemotion.js"></script>
+    <script type="text/javascript">
+      function activatemodal() {
+        $('.modal').modal();
+        $("#modal1").modal("open");
+        $('select').material_select();
+
+      }
+
+      function feelingSubmit() {
+
+        var feeling = $("#input-feeling-select").find("option:selected").text();
+        var reason = $("#reason").val();
+        
+        if (feeling == "Select" || reason == "") {
+
+          $("#message").text("Please, select a feeling and input the reason")
+
+        } else {
+
+          $("#message").text("");
+          $("#modal1").modal("close");
+          console.log("The feeling is: ", feeling, "The reason is:", reason);
+          activateDropAvatar();
+        }
+      }
+
+      function cancelModal() {
+        $("#modal1").modal("close");
+        $("#message").text("");
+      }
+
+
+      function activateDropAvatar() {
+        var theavatar = 
+        $("body").css('cursor','url(0avatar_cur.png),auto');
+      }
+    </script>
+  </body>
+</html>

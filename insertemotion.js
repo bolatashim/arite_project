@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 
+  $('.modal').modal();
 
   //initialize firebase
   var config = {
