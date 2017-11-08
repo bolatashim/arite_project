@@ -17,9 +17,9 @@ $(document).ready(function() {
 
   firebase.initializeApp(config);
   var database = firebase.database();
-  
+
   var usersReference = database.ref("users");
-  
+
 
       var filename = 'avatar.png';
       var AVAT_HEIGHT = 50;
@@ -49,10 +49,10 @@ $(document).ready(function() {
                   var thetime = finput.val().date;
                   if (thetime == GetTodayDate()){
                     dataset.push({
-                      x: finput.val().xpos, 
-                      y: finput.val().ypos, 
+                      x: finput.val().xpos,
+                      y: finput.val().ypos,
                       "xlink:href": user.val().avatar + filename,
-                      height:50, 
+                      height:50,
                       width:50
                     });
                   }
@@ -64,7 +64,7 @@ $(document).ready(function() {
             //console.log("bloody hell");
         });
       }
-      
+
 
 
       // We're passing in a function in d3.max to tell it what we're maxing (x value)
@@ -87,7 +87,12 @@ $(document).ready(function() {
           "xlink:href": "1avatar.png",
           height:AVAT_HEIGHT,
           width:AVAT_WIDTH,
-          r: radius
+          r: radius,
+          id:"avatar",
+          //transition:"visibility 0.3s linear"   TODO
+
+          //visibility:"hidden"
+
       };
 
 
@@ -131,10 +136,10 @@ $(document).ready(function() {
 
       // On Click, we want to add data to the array and chart
       svg.on("click", function() {
-          
+
           var coords = d3.mouse(this);
           console.log(coords[0])
-          console.log(xScale.invert(coords[0]))
+          console.log(Math.round(xScale.invert(coords[0])))
           //Normally we go from data to pixels, but here we're doing pixels to data
           var newData= {
             x: Math.round( xScale.invert(coords[0])),  // Takes the pixel number to convert to number
@@ -143,9 +148,6 @@ $(document).ready(function() {
             width:50,
             "xlink:href": "1avatar.png"
           };
-           console.log(newData);
-
-
           insertNewFeeling(newData.x, newData.y, feeling, reason);
           dataset.push(newData);   // Push data to our array
           svg.selectAll("image")  // For new circle, go through the update process
@@ -155,42 +157,71 @@ $(document).ready(function() {
             .attr(circleAttrs)  // Get attributes from circleAttrs var
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut);
+
+          console.log(newData);
+          d3.selectAll("#avatar")
+                .data(dataset)
+                .transition()
+                .duration(5000)
+                .attr("visibility",function(d,i){
+                  //console.log(distance(newData,d))
+                  //console.log(" " + distance(newData,d) + " $ " + 500)
+                  if(distance(newData,d) < 50000){
+                    return "visible"
+                  }
+                  else{
+                    return "hidden"
+
+                  }
+
+                });
+
+
+
+
+
+
+          // adding new point
+
+
+
         })
-
+  function distance(a,b){
+    return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
+  }
       // Create Event Handlers for mouse
-      function handleMouseOver(d, i) {  // Add interactivity
+  function handleMouseOver(d, i) {  // Add interactivity
 
-            // Use D3 to select element, change color and size
-            d3.select(this).attr({
-              fill: "orange",
-              r: radius * 2
-            });
+    // Use D3 to select element, change color and size
+    d3.select(this).attr({
+      fill: "orange",
+      r: radius * 2
+    });
 
-            // Specify where to put label of text
-            svg.append("text").attr({
-               id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
-                x: function() { return xScale(d.x) - 30; },
-                y: function() { return yScale(d.y) - 15; }
-            })
-            .text(function() {
-              return [d.x, d.y];  // Value of the text
-            });
-          }
+    // Specify where to put label of text
+    svg.append("text").attr({
+       id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
+        x: function() { return xScale(d.x) - 30; },
+        y: function() { return yScale(d.y) - 15; }
+    })
+    .text(function() {
+      return [d.x, d.y];  // Value of the text
+    });
+  }
+  function handleMouseOut(d, i) {
+        // Use D3 to select element, change color back to normal
+        d3.select(this).attr({
+          fill: "black",
+          r: radius
+        });
 
-      function handleMouseOut(d, i) {
-            // Use D3 to select element, change color back to normal
-            d3.select(this).attr({
-              fill: "black",
-              r: radius
-            });
+        // Select text by id and then remove
+        d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
+      }
 
-            // Select text by id and then remove
-            d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
-          }
-  
   //var feeling = $("#feeling").text();
   //var reason = $("#reason").text();
- 
+
 
   function insertNewFeeling(xpos, ypos, feeling, reason) {
     usersReference.once("value", function(snap){
@@ -205,7 +236,7 @@ $(document).ready(function() {
         });
       });
 
-    });    
+    });
   }
 
   function GetTodayDate() {
@@ -226,6 +257,7 @@ $(document).ready(function() {
   }
   retrieveFBData();
   parseURL();
+  //d3.selectAll("#avatar").attr("visibility", "hidden");
 
 
 });
