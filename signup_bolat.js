@@ -20,6 +20,7 @@ $(document).ready(function() {
   var occupation = "Undergrad";
   var gender = "Man";
   var age = 20;
+  var avatar = 0;
 
   function addUser(user) {
     usersReference.push({
@@ -28,7 +29,7 @@ $(document).ready(function() {
       gender: gender,
       occupation: occupation,
       age: age,
-      avatar: 0
+      avatar: avatar
     });
     alert("You are signed up!!!");
   }
@@ -38,6 +39,8 @@ $(document).ready(function() {
     const email = emailtxt.value;
     const password = passwordtxt.value;
     const auth = firebase.auth();
+
+    console.log(email, password);
 
     const promise = auth.createUserWithEmailAndPassword(email, password);
     promise
@@ -60,7 +63,17 @@ $(document).ready(function() {
     if($(this).is(':checked')) {
         occupation = $(this).val();
     }
+    console.log("before");
+  });
+  $('input[name="avatar_group"]', '#avatars').on('change', function() {
+    if($(this).is(':checked')) {
+        if ($(this).val() == "kim") {
+          avatar = 1;
+        } else {
+          avatar = 0;
+        }
+    }
   });
 
-
+  console.log("hehehe");
 });
