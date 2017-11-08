@@ -148,7 +148,6 @@ $(document).ready(function() {
 
           insertNewFeeling(newData.x, newData.y, feeling, reason);
           dataset.push(newData);   // Push data to our array
-
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
