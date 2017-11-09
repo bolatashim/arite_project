@@ -153,10 +153,11 @@ $(document).ready(function() {
             dataset.push(newData);   // Push data to our array  
             $("body").css('cursor','pointer');
             stupidvar += 1;
+
           }
           console.log("feeling is "+ feeling);
-          insertNewFeeling(newData.x, newData.y, newData.feeling, newData.reason);
-          dataset.push(newData);   // Push data to our array
+          
+          
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
