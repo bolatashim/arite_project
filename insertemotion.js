@@ -143,21 +143,21 @@ $(document).ready(function() {
             height:50,
             width:50,
             "xlink:href": "1avatar.png",
-            feeling : $.query.get("feeling"),
-            reason : $.query.get("reason")
+            feeling : feeling,
+            reason : reason
 
           };
 
           if (stupidvar < 1) {
-            insertNewFeeling(newData.x, newData.y, feeling, reason);
-            dataset.push(newData);   // Push data to our array  
+            insertNewFeeling(newData.x, newData.y, newData.feeling, newData.reason);
+            dataset.push(newData);   // Push data to our array
             $("body").css('cursor','pointer');
             stupidvar += 1;
 
           }
           console.log("feeling is "+ feeling);
-          
-          
+
+
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
@@ -264,6 +264,6 @@ $(document).ready(function() {
     reason = $.query.get("reason");
   }
   retrieveFBData();
-  parseURL();
+  //parseURL();
   //d3.selectAll("#avatar").attr("visibility", "hidden");
 });
