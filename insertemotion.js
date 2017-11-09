@@ -1,10 +1,5 @@
-
-
-
-  var stupidvar = 1;
-  
+var stupidvar = 1;
 $(document).ready(function() {
-
   var feeling = "Happy";
   var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 
@@ -270,8 +265,4 @@ $(document).ready(function() {
   retrieveFBData();
   parseURL();
   //d3.selectAll("#avatar").attr("visibility", "hidden");
-  console.log("kkk");
-  function stupidf() {
-    console.log("heheh");
-  }
-
+});
