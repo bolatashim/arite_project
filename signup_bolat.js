@@ -77,15 +77,15 @@ $(document).ready(function() {
 
   function addKim(user) {
     usersReference.push({
-      email: user.email,
-      institution: institutiontxt.value,
-      gender: gender,
-      occupation: occupation,
-      age: age,
-      avatar: avatar
+      email: "kardashian.kim@gmail.com",
+      institution: "US",
+      gender: "female",
+      occupation: "lotsofthings",
+      age: "37",
+      avatar: 1
     });
     alert("You are signed up!!!");
   }
-
+  // addKim();
   console.log("hehehe");
 });
