@@ -1,5 +1,7 @@
 
-$(document).ready(function() {
+
+  var stupidvar = 1;
+  
 
   $('.modal').modal();
   const RADIUS = 200
@@ -123,6 +125,7 @@ $(document).ready(function() {
         height:50,
         width:50
       });*/
+
       svg.selectAll()
 
       // On Click, we want to add data to the array and chart
@@ -139,8 +142,13 @@ $(document).ready(function() {
             width:50,
             "xlink:href": "1avatar.png"
           };
-          insertNewFeeling(newData.x, newData.y, feeling, reason);
-          dataset.push(newData);   // Push data to our array
+
+          if (stupidvar < 1) {
+            insertNewFeeling(newData.x, newData.y, feeling, reason);
+            dataset.push(newData);   // Push data to our array  
+            $("body").css('cursor','pointer');
+            stupidvar += 1;
+          }
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
@@ -248,6 +256,8 @@ $(document).ready(function() {
   retrieveFBData();
   parseURL();
   //d3.selectAll("#avatar").attr("visibility", "hidden");
+  console.log("kkk");
+  function stupidf() {
+    console.log("heheh");
+  }
 
-
-});

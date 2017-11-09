@@ -25,9 +25,9 @@
       }
 
       .btn-thehuge {
-        height: 120px;
-        width: 120px;
-        line-height: 185px;
+        height: 100px;
+        width: 100px;
+        line-height: 150px;
         padding: 0 0 rem;
       }
 
@@ -43,9 +43,25 @@
   </head>
 
   <body>
-    <div class="fixed-action-btn click-to-toggle" style="margin: 150px; ">
+
+    <div>
+      <!-- Switch -->
+
+      <div class="switch"  style="position: absolute;right: 50px; top: 50px;">
+        <h6 style="margin-top: 20px; text-align: center;">Your Avatar : </h6>
+        <label>
+          <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
+            <input name="avatar_switch" type="checkbox" checked="true">  
+          <span class="lever"></span>
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+        </label>
+        <h5 id="current_avatar_label" style="margin-top: 20px; text-align: center;">Trump</h5>
+      </div>
+      
+    </div>
+    <div class="fixed-action-btn click-to-toggle" style="margin-bottom: 70px;margin-right: 60px; ">
       <a class="btn-floating btn-thehuge">
-        <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 80px">add</i>
+        <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 60px">add</i>
       </a>
     </div>
 
@@ -92,6 +108,8 @@
     <!-- Begin Javascript -->
     <script src="insertemotion.js"></script>
     <script type="text/javascript">
+      $("body").css('cursor','pointer');
+      var avatar_index = 0;
       function activatemodal() {
         $('.modal').modal();
         $("#modal1").modal("open");
@@ -100,7 +118,7 @@
       }
 
       function feelingSubmit() {
-
+        
         var feeling = $("#input-feeling-select").find("option:selected").text();
         var reason = $("#reason").val();
         
@@ -120,13 +138,26 @@
       function cancelModal() {
         $("#modal1").modal("close");
         $("#message").text("");
+        $("body").css('cursor','pointer');
       }
 
 
       function activateDropAvatar() {
-        var theavatar = 
-        $("body").css('cursor','url(0avatar_cur.png),auto');
+        var theavatar = avatar_index + "avatar_cur.png"
+        $("body").css('cursor','url('+ theavatar + '),auto');
+        stupidvar = 0;
       }
+
+      $('input[name="avatar_switch"]').on('change', function() {
+        if($(this).is(':checked')) {
+          avatar_index = 0;
+          $("#current_avatar_label").text("Trump");
+        } else {
+          avatar_index = 1;
+          $("#current_avatar_label").text("Kim");
+        }
+      });
+
     </script>
   </body>
 </html>
