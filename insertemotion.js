@@ -1,7 +1,12 @@
 
 
+
   var stupidvar = 1;
   
+$(document).ready(function() {
+
+  var feeling = "Happy";
+  var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 
   $('.modal').modal();
   const RADIUS = 200
@@ -15,8 +20,6 @@
     messagingSenderId: "281398737861"
   };
 
-  var feeling = "Happy";
-  var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 
   firebase.initializeApp(config);
   var database = firebase.database();
@@ -56,8 +59,12 @@
                       y: finput.val().ypos,
                       "xlink:href": user.val().avatar + filename,
                       height:50,
-                      width:50
+                      width:50,
+                      feeling: finput.val().feeling,
+                      reason: finput.val().reason
+
                     });
+
                   }
                   //console.log(dataset);
                 });
@@ -140,7 +147,10 @@
             y: Math.round( coords[1]),
             height:50,
             width:50,
-            "xlink:href": "1avatar.png"
+            "xlink:href": "1avatar.png",
+            feeling : $.query.get("feeling"),
+            reason : $.query.get("reason")
+
           };
 
           if (stupidvar < 1) {
@@ -149,6 +159,9 @@
             $("body").css('cursor','pointer');
             stupidvar += 1;
           }
+          console.log("feeling is "+ feeling);
+          insertNewFeeling(newData.x, newData.y, newData.feeling, newData.reason);
+          dataset.push(newData);   // Push data to our array
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
@@ -203,7 +216,8 @@
         y: function() { return d.y - 15; }
     })
     .text(function() {
-      return [d.x, d.y];  // Value of the text
+
+      return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
     });
   }
   function handleMouseOut(d, i) {

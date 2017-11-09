@@ -32,14 +32,14 @@
       }
 
       .dropAvatarClass {
-        
+
         background-color: blue;
         cursor: url(0avatar.gif), auto;
 
       }
 
     </style>
-  
+
   </head>
 
   <body>
@@ -71,18 +71,18 @@
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
       <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
-        
+
         <h3>How do you feel today?</h3>
         <form>
           <select id="input-feeling-select">
             <option selected>Select</option>
-            <option>Happy</option>
-            <option>Sad</option>
-            <option>Excited</option>
-            <option>Tired</option>
-            <option>Relaxed</option>
-            <option>Sleepy</option>
-            <option>Angry</option>
+            <option>happy</option>
+            <option>sad</option>
+            <option>excited</option>
+            <option>tired</option>
+            <option>relaxed</option>
+            <option>sleepy</option>
+            <option>angry</option>
           </select>
         <input id="reason" type = "text" placeholder="Because" required ></textarea>
         </form>
@@ -96,11 +96,11 @@
         </div>
       </div>
     </div>
-          
 
 
 
-  
+
+
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="script/jquery.query-object.js"></script>
@@ -121,7 +121,7 @@
         
         var feeling = $("#input-feeling-select").find("option:selected").text();
         var reason = $("#reason").val();
-        
+
         if (feeling == "Select" || reason == "") {
 
           $("#message").text("Please, select a feeling and input the reason")
@@ -130,7 +130,7 @@
 
           $("#message").text("");
           $("#modal1").modal("close");
-          console.log("The feeling is: ", feeling, "The reason is:", reason);
+          window.location = "new_pos.html?" + "feeling=" + feeling + "&reason=" + reason;
           activateDropAvatar();
         }
       }
@@ -143,9 +143,14 @@
 
 
       function activateDropAvatar() {
+<<<<<<< HEAD
         var theavatar = avatar_index + "avatar_cur.png"
         $("body").css('cursor','url('+ theavatar + '),auto');
         stupidvar = 0;
+=======
+        var theavatar =
+        $("body").css('cursor','url(0avatar_cur.png),auto');
+>>>>>>> 1b64fbd2edfcac98c168bf3dea1a68ba4e124149
       }
 
       $('input[name="avatar_switch"]').on('change', function() {
