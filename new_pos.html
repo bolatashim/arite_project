@@ -115,10 +115,10 @@
 
       function feelingSubmit() {
         
-        var feeling = $("#input-feeling-select").find("option:selected").text();
-        var reason = $("#reason").val();
+        var thefeeling = $("#input-feeling-select").find("option:selected").text();
+        var thereason = $("#reason").val();
         
-        if (feeling == "Select" || reason == "") {
+        if (thefeeling == "Select" || thereason == "") {
 
           $("#message").text("Please, select a feeling and input the reason")
 
@@ -126,7 +126,9 @@
 
           $("#message").text("");
           $("#modal1").modal("close");
-          console.log("The feeling is: ", feeling, "The reason is:", reason);
+          //console.log("The feeling is: ", feeling, "The reason is:", reason);
+          feeling = thefeeling;
+          reason = thereason;
           activateDropAvatar();
         }
       }

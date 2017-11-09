@@ -1,7 +1,8 @@
 var stupidvar = 1;
+var feeling = "Happy";
+var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 $(document).ready(function() {
-  var feeling = "Happy";
-  var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
+
 
   $('.modal').modal();
   const RADIUS = 200
