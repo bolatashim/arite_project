@@ -1,6 +1,7 @@
 var stupidvar = 1;
 var feeling = "Happy";
 var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
+var avatar_index = 0;
 $(document).ready(function() {
 
 
@@ -89,7 +90,7 @@ $(document).ready(function() {
       var circleAttrs = {
           x: function(d) { return d.x - AVAT_WIDTH/2; },
           y: function(d) { return d.y - AVAT_HEIGHT/2; },
-          "xlink:href": "1avatar.png",
+          "xlink:href": "0avatar.png",
           height:AVAT_HEIGHT,
           width:AVAT_WIDTH,
           r: radius,
@@ -234,17 +235,18 @@ $(document).ready(function() {
 
   function insertNewFeeling(xpos, ypos, feeling, reason) {
     usersReference.once("value", function(snap){
-
-      snap.forEach(function(user){
-        database.ref("users/" + user.key + "/days").push({
-          xpos: xpos,
-          ypos: ypos,
-          feeling: feeling,
-          reason: reason,
-          date: GetTodayDate()
-        });
+      snap.forEach(function(user) {
+        console.log("the avatar", user.val().avatar)
+        if (user.val().avatar == avatar_index) {
+          database.ref("users/" + user.key + "/days").push({
+            xpos: xpos,
+            ypos: ypos,
+            feeling: feeling,
+            reason: reason,
+            date: GetTodayDate()
+          });          
+        }
       });
-
     });
   }
 

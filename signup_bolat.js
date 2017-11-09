@@ -75,5 +75,17 @@ $(document).ready(function() {
     }
   });
 
+  function addKim(user) {
+    usersReference.push({
+      email: user.email,
+      institution: institutiontxt.value,
+      gender: gender,
+      occupation: occupation,
+      age: age,
+      avatar: avatar
+    });
+    alert("You are signed up!!!");
+  }
+
   console.log("hehehe");
 });
