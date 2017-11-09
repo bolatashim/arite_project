@@ -90,12 +90,13 @@ $(document).ready(function() {
       var circleAttrs = {
           x: function(d) { return d.x - AVAT_WIDTH/2; },
           y: function(d) { return d.y - AVAT_HEIGHT/2; },
-          "xlink:href": "0avatar.png",
+          "xlink:href": avatar_index + "avatar.png",
           height:AVAT_HEIGHT,
           width:AVAT_WIDTH,
           r: radius,
           id:"avatar",
           transition:"opacity 1s linear"
+
           //transition:"visibility 0.3s linear"   TODO
           //visibility:"hidden"
 
@@ -193,6 +194,8 @@ $(document).ready(function() {
                   }
 
                 });
+                
+
 
         })
   function distance_squared(a,b){
@@ -244,7 +247,7 @@ $(document).ready(function() {
             feeling: feeling,
             reason: reason,
             date: GetTodayDate()
-          });          
+          });
         }
       });
     });
