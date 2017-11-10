@@ -52,7 +52,7 @@
     <div class="cont">
     <div>
       <!-- Switch -->
-      <div class="switch"  style="position: absolute;right: 50px; top: 50px;">
+      <div class="switch"  style="position: absolute;right: 50px; top: 90px;">
         <h6 style="margin-top: 20px; text-align: center;">Your Avatar : </h6>
         <label>
           <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
@@ -61,6 +61,7 @@
           <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
         </label>
         <h5 id="current_avatar_label" style="margin-top: 20px; text-align: center;">Trump</h5>
+
       </div>
 
     </div>
@@ -69,6 +70,9 @@
         <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 60px">add</i>
       </a>
     </div>
+
+
+           
 
       <!-- Modal Trigger -->
     <!-- <a class="waves-effect waves-light btn modal-trigger">Modal</a> -->
@@ -101,10 +105,19 @@
         </div>
       </div>
     </div>
-
     </div>
 
-
+  <div style="position: absolute; left: 190px; bottom: 70px;">
+   <ul class="pagination">
+      <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+      <li class="waves-effect"><a href="#!">Nov 7</a></li>
+      <li class="waves-effect"><a href="#!">Nov 8</a></li>
+      <li class="waves-effect"><a href="#!">Nov 9</a></li>
+      <li class="waves-effect"><a href="#!">Nov 10</a></li>
+      <li class="active"><a href="#!">TODAY</a></li>
+      <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    </ul>    
+  </div>
 
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
