@@ -105,7 +105,6 @@
     <script src="insertemotion.js"></script>
     <script type="text/javascript">
       $("body").css('cursor','pointer');
-      var avatar_index = 0;
       function activatemodal() {
         $('.modal').modal();
         $("#modal1").modal("open");
@@ -154,8 +153,6 @@
           avatar_index = 1;
           $("#current_avatar_label").text("Kim");
         }
-        d3.selectAll("#avatar")
-              .attr("xlink:href", avatar_index + "avatar.png");
       });
 
     </script>

@@ -145,7 +145,7 @@ $(document).ready(function() {
             y: Math.round( coords[1]),
             height:50,
             width:50,
-            "xlink:href": "1avatar.png",
+            "xlink:href": avatar_index + "avatar.png",
             feeling : feeling,
             reason : reason
 
@@ -160,7 +160,7 @@ $(document).ready(function() {
           }
           console.log("feeling is "+ feeling);
 
-
+          console.log(dataset)
           svg.selectAll("image")  // For new circle, go through the update process
             .data(dataset)
             .enter()
@@ -194,8 +194,6 @@ $(document).ready(function() {
                   }
 
                 });
-                
-
 
         })
   function distance_squared(a,b){
