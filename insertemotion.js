@@ -77,13 +77,13 @@ $(document).ready(function() {
 
       // TODO remove these scalings
       var xScale = d3.scale.linear()
-          .domain([0, 1000])
-          .range([0, 1000]);  // Set margins for x specific
+          .domain([0, 800])
+          .range([0, 800]);  // Set margins for x specific
 
 
       var yScale = d3.scale.linear()
-          .domain([0, 800])
-          .range([0, 800]);  // Set margins for y specific
+          .domain([0, 600])
+          .range([0, 600]);  // Set margins for y specific
 
       var xAxis = d3.svg.axis().scale(xScale).orient("top");
       var yAxis = d3.svg.axis().scale(yScale).orient("left");
