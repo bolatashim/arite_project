@@ -54,9 +54,10 @@ $(document).ready(function() {
                     dataset.push({
                       x: finput.val().xpos,
                       y: finput.val().ypos,
-                      "xlink:href": user.val().avatar + filename,
-                      height:50,
-                      width:50,
+                      //"xlink:href": user.val().avatar + filename,
+                      avatar : user.val().avatar,
+                      //height:50,
+                      //width:50,
                       feeling: finput.val().feeling,
                       reason: finput.val().reason
 
@@ -90,13 +91,11 @@ $(document).ready(function() {
       var circleAttrs = {
           x: function(d) { return d.x - AVAT_WIDTH/2; },
           y: function(d) { return d.y - AVAT_HEIGHT/2; },
-          "xlink:href": avatar_index + "avatar.png",
+          "xlink:href": function(d){ return d.avatar + "avatar.png"; },
           height:AVAT_HEIGHT,
           width:AVAT_WIDTH,
-          r: radius,
-          id:"avatar",
-          transition:"opacity 1s linear"
-
+          //r: radius,
+          id:"avatar"
           //transition:"visibility 0.3s linear"   TODO
           //visibility:"hidden"
 
@@ -143,9 +142,16 @@ $(document).ready(function() {
           var newData= {
             x: Math.round( coords[0]),  // Takes the pixel number to convert to number
             y: Math.round( coords[1]),
+
             height:50,
             width:50,
             "xlink:href": avatar_index + "avatar.png",
+
+            //height:50,
+            //width:50,
+            //"xlink:href": avatar_index + "avatar.png",
+            avatar : avatar_index,
+
             feeling : feeling,
             reason : reason
 
@@ -194,6 +200,10 @@ $(document).ready(function() {
                   }
 
                 });
+
+
+
+
 
         })
   function distance_squared(a,b){
@@ -260,7 +270,7 @@ $(document).ready(function() {
     if (dd < 10){
       dd = "0" + dd;
     }
-    var currentDate = dd + +( MM+1) + yyyy;
+    var currentDate = dd +"" +( MM+1) + "" + yyyy;
     return currentDate;
   }
 
