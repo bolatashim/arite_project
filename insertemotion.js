@@ -57,46 +57,6 @@ function retrieveFBData() {
     });
 }
 
-$(document).ready(function() {
-  $('.modal').modal();
-  //initialize firebase
-  svg = d3.select(".emotion_graph").append("svg").attr({
-    width: w,
-    height: h
-  });
-
-      // make sure you take care of the firebase's latency asynchronosity
-      function retrieveFBData() {
-        usersReference.once("value", function(snap){
-            snap.forEach(function(user){
-              database.ref("users/" + user.key + "/days").once("value",  function(day) {
-                day.forEach(function(finput){
-                  //console.log(user.val())
-                  var thetime = finput.val().date;
-                  if (thetime == GetTodayDate()){
-                    dataset.push({
-                      x: finput.val().xpos,
-                      y: finput.val().ypos,
-                      //"xlink:href": user.val().avatar + filename,
-                      avatar : user.val().avatar,
-                      //height:50,
-                      //width:50,
-                      feeling: finput.val().feeling,
-                      reason: finput.val().reason
-
-                    });
-
-                  }
-                  //console.log(dataset);
-
-                });
-              })
-            });
-          });
-        }
-
-            console.log(emotionsdata, "asddddasdjaeifjaefjaepofja")
-
 function retrieveOneWeekData() {
   var prevdates = [];
   for (var i = 0; i < 7; i++) {
@@ -127,26 +87,33 @@ function retrieveOneWeekData() {
                 feeling: finput.val().feeling,
                 reason: finput.val().reason,
                 user_email: user.val().email
-              });                    
+              });
             }
         });
       })
     });
   });
 }
+var circleAttrs = {
+    x: function(d) { return d.x - AVAT_WIDTH/2; },
+    y: function(d) { return d.y - AVAT_HEIGHT/2; },
+    "xlink:href": function(d){ return d.avatar + filename; },
+    height:AVAT_HEIGHT,
+    width:AVAT_WIDTH,
+    id:"avatar"
+    //visibility:"hidden"
+};
 
+$(document).ready(function() {
+  $('.modal').modal();
+  //initialize firebase
+  svg = d3.select(".emotion_graph").append("svg").attr({
+    width: w,
+    height: h
+  });
 
-  var circleAttrs = {
-      x: function(d) { return d.x - AVAT_WIDTH/2; },
-      y: function(d) { return d.y - AVAT_HEIGHT/2; },
-      "xlink:href": function(d){ return d.avatar + filename; },
-      height:AVAT_HEIGHT,
-      width:AVAT_WIDTH,
-      id:"avatar"
-      //visibility:"hidden"
-
-  };
-
+      // make sure you take care of the firebase's latency asynchronosity
+  console.log(emotionsdata, "asddddasdjaeifjaefjaepofja")
 
   svg.selectAll("image")
       .data(emotionsdata[current_dayidx])
@@ -164,7 +131,6 @@ function retrieveOneWeekData() {
     width:50
   });*/
 
-  svg.selectAll()
 
   // On Click, we want to add data to the array and chart
   svg.on("click", function() {
@@ -232,7 +198,7 @@ function retrieveOneWeekData() {
               }
             });
 
-          
+
           d3.timer(make_hidden(newData),TRANSPARENCY_DELAY)
           //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
@@ -257,7 +223,31 @@ function make_hidden(newData){
           }
         });
 }
+function change_day(new_day){
+  //remove old avatars
+  svg.selectAll("image")  // For new circle, go through the update process
+    .data(emotionsdata[new_day])
+    .exit()
+    .remove();
 
+  // add new avatars
+  svg.selectAll("image")  // For new circle, go through the update process
+    .data(emotionsdata[new_day])
+    .enter()
+    .append("image")
+    .attr(circleAttrs)  // Get attributes from circleAttrs var
+    .on("mouseover", handleMouseOver)
+    .on("mouseout", handleMouseOut);
+
+  //update common avatars
+  svg.selectAll("image")  // For new circle, go through the update process
+    .data(emotionsdata[new_day])
+    .transition()
+    .duration(TRANSPARENCY_DELAY)
+    .attr(circleAttrs)
+  current_dayidx = new_day
+
+}
 function distance_squared(a,b){
   return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
 }
@@ -342,8 +332,5 @@ function getDateDaysBefore(days) {
 
 
 function getPagData() {
-  
+
 }
-
-
-
