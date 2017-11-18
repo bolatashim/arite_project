@@ -12,80 +12,64 @@ var  TRANSPARENCY_DELAY = 500;
 
 var w = window.innerWidth,
     h = window.innerHeight,
-    margin = { top: 40, right: 20, bottom: 20, left: 40 },
-    radius = 6;
+    margin = { top: 40, right: 20, bottom: 20, left: 40 }
 var svg ;
+var dataset = []
+var config = {
+  apiKey: "AIzaSyBIuiGklPwChoeJ2PFWQVOJCvhO82Dbh0o",
+  authDomain: "arite-project-6982b.firebaseapp.com",
+  databaseURL: "https://arite-project-6982b.firebaseio.com",
+  projectId: "arite-project-6982b",
+  storageBucket: "",
+  messagingSenderId: "281398737861"
+};
+firebase.initializeApp(config);
+var database = firebase.database();
+var usersReference = database.ref("users");
+
+// make sure you take care of the firebase's latency asynchronosity
+function retrieveFBData() {
+  usersReference.once("value", function(snap){
+      snap.forEach(function(user){
+        database.ref("users/" + user.key + "/days").once("value",  function(day) {
+          day.forEach(function(finput){
+            //console.log(user.val())
+            var thetime = finput.val().date;
+            if (thetime == GetTodayDate()){
+              dataset.push({
+                x: finput.val().xpos,
+                y: finput.val().ypos,
+                //"xlink:href": user.val().avatar + filename,
+                avatar : user.val().avatar,
+                //height:50,
+                //width:50,
+                feeling: finput.val().feeling,
+                reason: finput.val().reason
+
+              });
+
+            }
+            //console.log(dataset);
+          });
+        })
+      });
+    });
+}
 
 $(document).ready(function() {
   $('.modal').modal();
   //initialize firebase
-  var config = {
-    apiKey: "AIzaSyBIuiGklPwChoeJ2PFWQVOJCvhO82Dbh0o",
-    authDomain: "arite-project-6982b.firebaseapp.com",
-    databaseURL: "https://arite-project-6982b.firebaseio.com",
-    projectId: "arite-project-6982b",
-    storageBucket: "",
-    messagingSenderId: "281398737861"
-  };
-
-  firebase.initializeApp(config);
-  var database = firebase.database();
-  var usersReference = database.ref("users");
-  var dataset = [];
-
   svg = d3.select(".emotion_graph").append("svg").attr({
     width: w,
     height: h
   });
-
-      // make sure you take care of the firebase's latency asynchronosity
-      function retrieveFBData() {
-        usersReference.once("value", function(snap){
-            snap.forEach(function(user){
-              database.ref("users/" + user.key + "/days").once("value",  function(day) {
-                day.forEach(function(finput){
-                  //console.log(user.val())
-                  var thetime = finput.val().date;
-                  if (thetime == GetTodayDate()){
-                    dataset.push({
-                      x: finput.val().xpos,
-                      y: finput.val().ypos,
-                      //"xlink:href": user.val().avatar + filename,
-                      avatar : user.val().avatar,
-                      //height:50,
-                      //width:50,
-                      feeling: finput.val().feeling,
-                      reason: finput.val().reason
-
-                    });
-
-                  }
-                  //console.log(dataset);
-                });
-              })
-            });
-          });
-        }
-
-  // TODO remove these scalings
-  var xScale = d3.scale.linear()
-      .domain([0, SCREEN_WIDTH])
-      .range([0, SCREEN_WIDTH]);  // Set margins for x specific
-
-
-  var yScale = d3.scale.linear()
-      .domain([0, SCREEN_HEIGHT])
-      .range([0, SCREEN_HEIGHT]);  // Set margins for y specific
-
   var circleAttrs = {
       x: function(d) { return d.x - AVAT_WIDTH/2; },
       y: function(d) { return d.y - AVAT_HEIGHT/2; },
       "xlink:href": function(d){ return d.avatar + filename; },
       height:AVAT_HEIGHT,
       width:AVAT_WIDTH,
-      //r: radius,
       id:"avatar"
-      //transition:"visibility 0.3s linear"   TODO
       //visibility:"hidden"
 
   };
@@ -119,19 +103,12 @@ $(document).ready(function() {
       var newData= {
         x: Math.round( coords[0]),  // Takes the pixel number to convert to number
         y: Math.round( coords[1]),
-
-        height:50,
-        width:50,
+        height:AVAT_HEIGHT,
+        width:AVAT_WIDTH,
         "xlink:href": avatar_index + "avatar.png",
-
-        //height:50,
-        //width:50,
-        //"xlink:href": avatar_index + "avatar.png",
         avatar : avatar_index,
-
         feeling : feeling,
         reason : reason
-
       };
 
       if (stupidvar < 1) {
@@ -181,7 +158,7 @@ $(document).ready(function() {
               }
             });
 
-          d3.timer(make_hidden(newData,dataset),TRANSPARENCY_DELAY)
+          d3.timer(make_hidden(newData),TRANSPARENCY_DELAY)
           //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
     })
@@ -189,7 +166,7 @@ $(document).ready(function() {
   //parseURL();
 //d3.selectAll("#avatar").attr("visibility", "hidden");
 });
-function make_hidden(newData,dataset){
+function make_hidden(newData){
   d3.selectAll("#avatar")
         .data(dataset)
         .attr("visibility",function(d,i){
@@ -211,12 +188,6 @@ function distance_squared(a,b){
     // Create Event Handlers for mouse
 function handleMouseOver(d, i) {  // Add interactivity
 
-  // Use D3 to select element, change color and size
-  d3.select(this).attr({
-    fill: "orange",
-    r: radius * 2
-  });
-
   // Specify where to put label of text
   svg.append("text").attr({
      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
@@ -230,18 +201,9 @@ function handleMouseOver(d, i) {  // Add interactivity
 }
 function handleMouseOut(d, i) {
       // Use D3 to select element, change color back to normal
-      d3.select(this).attr({
-        fill: "black",
-        r: radius
-      });
-
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
     }
-
-//var feeling = $("#feeling").text();
-//var reason = $("#reason").text();
-
 
 function insertNewFeeling(xpos, ypos, feeling, reason) {
   usersReference.once("value", function(snap){
