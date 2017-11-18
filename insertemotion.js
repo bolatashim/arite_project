@@ -30,56 +30,16 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
   var usersReference = database.ref("users");
+  var dataset = [];
 
   svg = d3.select("body").append("svg").attr({
     width: w,
     height: h
   });
 
-  var dataset = [];
-
-  // make sure you take care of the firebase's latency asynchronosity
-  function retrieveFBData() {
-    dataset = [];
-    $.when(
-      usersReference.once("value", function(snap){
-        snap.forEach(function(user){
-          database.ref("users/" + user.key + "/days").once("value",  function(day) {
-            day.forEach(function(finput){
-              //console.log(user.val())
-              var thetime = finput.val().date;
-              if (thetime == GetTodayDate()){
-                dataset.push({
-                  x: finput.val().xpos,
-                  y: finput.val().ypos,
-                  //"xlink:href": user.val().avatar + filename,
-                  avatar : user.val().avatar,
-                  //height:50,
-                  //width:50,
-                  feeling: finput.val().feeling,
-                  reason: finput.val().reason
-
-      var filename = 'avatar.png';
-      var AVAT_HEIGHT = 50;
-      var AVAT_WIDTH = 50;
-
-      var w = window.innerWidth * 0.6,
-          h = window.innerHeight * 0.8,
-          margin = { top: 40, right: 20, bottom: 20, left: 40 },
-          radius = 6;
-
-      var svg = d3.select(".emotion_graph").append("svg").attr({
-        width: w,
-        height: h
-      });
-
-      var dataset = [];
-
       // make sure you take care of the firebase's latency asynchronosity
       function retrieveFBData() {
-        dataset = [];
-        $.when(
-          usersReference.once("value", function(snap){
+        usersReference.once("value", function(snap){
             snap.forEach(function(user){
               database.ref("users/" + user.key + "/days").once("value",  function(day) {
                 day.forEach(function(finput){
@@ -102,14 +62,10 @@ $(document).ready(function() {
                   //console.log(dataset);
 
                 });
-              }
+              })
             });
           });
-        });
-      }).done(function( x ) {
-        //console.log("bloody hell");
-    });
-  }
+        }
 
 
 
