@@ -12,10 +12,15 @@
 
     <style type="text/css">
 
-      body {
+
+      .emotion_graph {
         margin: 0;
         font-family: sans-serif;
         font-size: 11px;
+        background-image: url("emotion_graph_800_600.png");
+        background-repeat: no-repeat;
+        min-width: 800px;
+        min-height: 600px;
       }
 
       .axis path, .axis line {
@@ -39,8 +44,11 @@
       }
 
       body {
-        background-image: url("emotion_graph_800_600.png");
-        background-repeat: no-repeat;
+        margin-left: 50px;
+        margin-right: 50px;
+      }
+      .main_div {
+        margin: 30px
       }
 
 
@@ -49,39 +57,12 @@
   </head>
   <body>
     <!-- <img src="emotion_graph_800_600.png" alt="emotion map" style="z-index: -40000"> -->
-    <div class="cont">
-    <div>
-      <!-- Switch -->
-      <a href="instructions.html" class="waves-effect waves-light btn" style="position: absolute;right: 60px; top: 20px;">Need help?</a>
-      <div class="switch"  style="position: absolute;right: 50px; top: 90px;">
-        <h6 style="margin-top: 20px; text-align: center;">Your Avatar : </h6>
-        <label>
-          <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
-            <input name="avatar_switch" type="checkbox" checked="true">
-          <span class="lever"></span>
-          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
-        </label>
-        <h5 id="current_avatar_label" style="margin-top: 20px; text-align: center;">Trump</h5>
+    
+  <div class="row">
+  <div class="col s12 main_div">
 
-      </div>
-
-    </div>
-    <div class="fixed-action-btn click-to-toggle" style="margin-bottom: 70px;margin-right: 60px; ">
-      <a class="btn-floating btn-thehuge">
-        <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 60px">add</i>
-      </a>
-    </div>
-
-
-           
-
-      <!-- Modal Trigger -->
-    <!-- <a class="waves-effect waves-light btn modal-trigger">Modal</a> -->
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
+  <div id="modal1" class="modal">
       <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
-
         <h3>How do you feel today?</h3>
         <form>
           <select id="input-feeling-select">
@@ -106,20 +87,50 @@
         </div>
       </div>
     </div>
+
+
+  <div class="col s10">
+    <div class="emotion_graph">
+      <div class="graph_image"></div>
     </div>
+    <div style=" margin: 0 auto; width: 60%">
+     <ul class="pagination">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        <li class="waves-effect"><a href="#!">Nov 7</a></li>
+        <li class="waves-effect"><a href="#!">Nov 8</a></li>
+        <li class="waves-effect"><a href="#!">Nov 9</a></li>
+        <li class="waves-effect"><a href="#!">Nov 10</a></li>
+        <li class="active"><a href="#!">TODAY</a></li>
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+      </ul>    
+    </div>
+  </div>      
+  <div class="col s2">
+    
+    <div>
+      <a href="instructions.html" class="waves-effect waves-light btn" style="align-content: center; margin: 20px auto;  width: 100%">Need help?</a>
 
-  <div style="position: absolute; left: 190px; bottom: 70px;">
-   <ul class="pagination">
-      <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-      <li class="waves-effect"><a href="#!">Nov 7</a></li>
-      <li class="waves-effect"><a href="#!">Nov 8</a></li>
-      <li class="waves-effect"><a href="#!">Nov 9</a></li>
-      <li class="waves-effect"><a href="#!">Nov 10</a></li>
-      <li class="active"><a href="#!">TODAY</a></li>
-      <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-    </ul>    
+
+
+      <div class="switch"  style="align-content: center; margin: 20px auto; width: 100%">
+        <h6 style="margin-top: 20px; text-align: center;">Your Avatar : </h6>
+        <label>
+          <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
+            <input name="avatar_switch" type="checkbox" checked="true">
+          <span class="lever"></span>
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+        </label>
+        <h5 id="current_avatar_label" style="margin-top: 20px; text-align: center;">Trump</h5>
+      </div>
+    </div>
   </div>
-
+  </div>
+      <div class="fixed-action-btn click-to-toggle" style="margin-bottom: 70px;margin-right: 60px; ">
+      <a class="btn-floating btn-thehuge">
+        <i class="material-icons md-48" onclick="activatemodal()" style="font-size: 60px">add</i>
+      </a>
+    </div>
+  </div>
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="script/jquery.query-object.js"></script>

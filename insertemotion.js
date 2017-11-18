@@ -28,12 +28,12 @@ $(document).ready(function() {
       var AVAT_HEIGHT = 50;
       var AVAT_WIDTH = 50;
 
-      var w = window.innerWidth,
-          h = window.innerHeight,
+      var w = window.innerWidth * 0.6,
+          h = window.innerHeight * 0.8,
           margin = { top: 40, right: 20, bottom: 20, left: 40 },
           radius = 6;
 
-      var svg = d3.select("body").append("svg").attr({
+      var svg = d3.select(".emotion_graph").append("svg").attr({
         width: w,
         height: h
       });
