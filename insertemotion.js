@@ -29,34 +29,6 @@ var database = firebase.database();
 var usersReference = database.ref("users");
 
 // make sure you take care of the firebase's latency asynchronosity
-function retrieveFBData() {
-  usersReference.once("value", function(snap){
-      snap.forEach(function(user){
-        database.ref("users/" + user.key + "/days").once("value",  function(day) {
-          day.forEach(function(finput){
-            //console.log(user.val())
-            var thetime = finput.val().date;
-            if (thetime == GetTodayDate()){
-              dataset.push({
-                x: finput.val().xpos,
-                y: finput.val().ypos,
-                //"xlink:href": user.val().avatar + filename,
-                avatar : user.val().avatar,
-                //height:50,
-                //width:50,
-                feeling: finput.val().feeling,
-                reason: finput.val().reason
-
-              });
-
-            }
-            //console.log(dataset);
-          });
-        })
-      });
-    });
-}
-
 function retrieveOneWeekData() {
   var prevdates = [];
   for (var i = 0; i < 7; i++) {
