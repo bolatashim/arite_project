@@ -8,6 +8,7 @@ var AVAT_HEIGHT = 50;
 var AVAT_WIDTH = 50;
 var SCREEN_HEIGHT = 600;
 var SCREEN_WIDTH = 800;
+var  TRANSPARENCY_DELAY = 500;
 
 var w = window.innerWidth,
     h = window.innerHeight,
@@ -60,14 +61,11 @@ $(document).ready(function() {
 
                   }
                   //console.log(dataset);
-
                 });
               })
             });
           });
         }
-
-
 
   // TODO remove these scalings
   var xScale = d3.scale.linear()
@@ -183,7 +181,6 @@ $(document).ready(function() {
 
 
 
-      TRANSPARENCY_DELAY = 500;
       d3.selectAll("#avatar")
             .data(dataset)
             .transition()
