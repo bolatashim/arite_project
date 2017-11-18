@@ -11,8 +11,8 @@ var SCREEN_WIDTH = 800;
 var current_dayidx = 0;
 var emotionsdata = [[], [], [], [], [], [], []]; //these are the indices for previous days. first is today and so on...
 var TRANSPARENCY_DELAY = 500;
-var w = window.innerWidth,
-    h = window.innerHeight,
+var w = window.innerWidth*0.8,
+    h = window.innerHeight*0.8,
     margin = { top: 40, right: 20, bottom: 20, left: 40 }
 var svg ;
 var dataset = []
@@ -75,7 +75,6 @@ var circleAttrs = {
     height:AVAT_HEIGHT,
     width:AVAT_WIDTH,
     id:"avatar"
-    //visibility:"hidden"
 };
 
 $(document).ready(function() {
@@ -200,28 +199,56 @@ function make_hidden(newData){
         });
 }
 function change_day(new_day){
-  //remove old avatars
-  svg.selectAll("image")  // For new circle, go through the update process
-    .data(emotionsdata[new_day])
-    .exit()
-    .remove();
+    console.log(current_dayidx,"->",new_day);
+    console.log(emotionsdata[current_dayidx])
+    reserve_today = []
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
+      reserve_today.push( emotionsdata[current_dayidx][i]);
 
-  // add new avatars
-  svg.selectAll("image")  // For new circle, go through the update process
-    .data(emotionsdata[new_day])
-    .enter()
-    .append("image")
-    .attr(circleAttrs)  // Get attributes from circleAttrs var
-    .on("mouseover", handleMouseOver)
-    .on("mouseout", handleMouseOut);
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
+      for(var j = 0; j < emotionsdata[new_day].length; j++){
+        if(emotionsdata[current_dayidx][i].user_email == emotionsdata[new_day][j].user_email){
+            emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
+            emotionsdata[current_dayidx][i].x = emotionsdata[new_day][j].x;
+            emotionsdata[current_dayidx][i].y = emotionsdata[new_day][j].y;
+            // avatar : user.val().avatar,
+            // feeling: finput.val().feeling,
+            // reason: finput.val().reason,
+            // user_email: user.val().email
 
-  //update common avatars
-  svg.selectAll("image")  // For new circle, go through the update process
-    .data(emotionsdata[new_day])
-    .transition()
-    .duration(TRANSPARENCY_DELAY)
-    .attr(circleAttrs)
-  current_dayidx = new_day
+        }
+      }
+    }
+    //update inputs which are from common users
+    svg.selectAll("image")  // For new circle, go through the update process
+      .data(emotionsdata[current_dayidx])
+      .transition()
+      .duration(TRANSPARENCY_DELAY)
+      .attr(circleAttrs)
+      .attr('visibility','visible')
+      .attr('opacity','1')
+
+    // // remove old avatars
+    // svg.selectAll("image")  // For new circle, go through the update process
+    //   .data(emotionsdata[current_dayidx])
+    //   .transition()
+    //   .duration(TRANSPARENCY_DELAY)
+    //   .remove();
+    //
+    // // add new avatars
+    // svg.selectAll("image")  // For new circle, go through the update process
+    //   .data(emotionsdata[new_day])
+    //   .enter()
+    //   .append("image")
+    //   .attr(circleAttrs)  // Get attributes from circleAttrs var
+    //   .on("mouseover", handleMouseOver)
+    //   .on("mouseout", handleMouseOut);
+    emotionsdata[current_dayidx] = []
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
+      emotionsdata[current_dayidx].push(reserve_today[i]);
+
+    emotionsdata[current_dayidx] = reserve_today;
+    current_dayidx = new_day
 
 }
 function distance_squared(a,b){
@@ -311,6 +338,7 @@ function selectPagIdx(idx) {
 
   $("#" + $(".active").attr("id")).removeClass("active");
   $("#" + map_pagination[idx]).addClass("active");
+
   change_day(idx);
 }
 
@@ -319,13 +347,8 @@ function paginationDateFill() {
   for (var i = 1; i < 7; i++) {
     var today = new Date(today - 1000 * 60 * 60 * 24 * 1);
     var dd = today.getDate(); //yields day
-    var MM = map_months[today.getMonth()]; //yields month 
+    var MM = map_months[today.getMonth()]; //yields month
     var date = MM + " " + dd
     $("#" + map_pagination[i] + " > a").text(date);
   }
 }
-
-
-
-
-
