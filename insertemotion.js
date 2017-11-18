@@ -8,7 +8,8 @@ var AVAT_HEIGHT = 50;
 var AVAT_WIDTH = 50;
 var SCREEN_HEIGHT = 600;
 var SCREEN_WIDTH = 800;
-
+var current_dayidx = 0;
+var emotionsdata = [[], [], [], [], [], [], []]; //these are the indices for previous days. first is today and so on...
 var w = window.innerWidth,
     h = window.innerHeight,
     margin = { top: 40, right: 20, bottom: 20, left: 40 },
@@ -67,6 +68,45 @@ $(document).ready(function() {
           });
         }
 
+            console.log(emotionsdata, "asddddasdjaeifjaefjaepofja")
+
+function retrieveOneWeekData() {
+  var prevdates = [];
+  for (var i = 0; i < 7; i++) {
+    prevdates.push(getDateDaysBefore(i));
+  }
+  usersReference.once("value", function(snap){
+      snap.forEach(function(user){
+
+        database.ref("users/" + user.key + "/days").once("value",  function(day) {
+          day.forEach(function(finput){
+            var thetime = finput.val().date;
+            var day_index = -1;
+
+            for (var k = 0; k < 7; k++) {
+              if (thetime == prevdates[k]){
+                day_index = k;
+                break;
+              }
+            }
+
+            console.log(emotionsdata, day_index, "asddddasdjaeifjaefjaepofja")
+
+            if (!(day_index == -1)) {
+              emotionsdata[day_index].push({
+                x: finput.val().xpos,
+                y: finput.val().ypos,
+                avatar : user.val().avatar,
+                feeling: finput.val().feeling,
+                reason: finput.val().reason,
+                user_email: user.val().email
+              });                    
+            }
+        });
+      })
+    });
+  });
+}
 
 
   // TODO remove these scalings
@@ -109,7 +149,7 @@ $(document).ready(function() {
   }).call(yAxis);  // Call the yAxis function on the group
 
   svg.selectAll("image")
-      .data(dataset)
+      .data(emotionsdata[current_dayidx])
       .enter()
       .append("svg:image")
       .attr(circleAttrs)  // Get attributes from circleAttrs var
@@ -153,7 +193,7 @@ $(document).ready(function() {
 
       if (stupidvar < 1) {
         insertNewFeeling(newData.x, newData.y, newData.feeling, newData.reason);
-        dataset.push(newData);   // Push data to our array
+        emotionsdata[current_dayidx].push(newData);   // Push data to our array
         $("body").css('cursor','pointer');
         stupidvar += 1;
 
@@ -161,8 +201,9 @@ $(document).ready(function() {
       console.log("feeling is "+ feeling);
 
       console.log(dataset)
+
       svg.selectAll("image")  // For new circle, go through the update process
-        .data(dataset)
+        .data(emotionsdata[current_dayidx])
         .enter()
         .append("image")
         .attr(circleAttrs)  // Get attributes from circleAttrs var
@@ -185,7 +226,7 @@ $(document).ready(function() {
 
       TRANSPARENCY_DELAY = 500;
       d3.selectAll("#avatar")
-            .data(dataset)
+            .data(emotionsdata[current_dayidx])
             .transition()
             .duration(TRANSPARENCY_DELAY)
             .attr("opacity",function(d,i){
@@ -199,17 +240,18 @@ $(document).ready(function() {
               }
             });
 
-          d3.timer(make_hidden(newData,dataset),TRANSPARENCY_DELAY)
+          d3.timer(make_hidden(newData,emotionsdata[current_dayidx]),TRANSPARENCY_DELAY)
           //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
     })
-  retrieveFBData();
+  // retrieveFBData();
+  retrieveOneWeekData();
   //parseURL();
 //d3.selectAll("#avatar").attr("visibility", "hidden");
 });
 function make_hidden(newData,dataset){
   d3.selectAll("#avatar")
-        .data(dataset)
+        .data(emotionsdata[current_dayidx])
         .attr("visibility",function(d,i){
           //console.log(distance(newData,d))
           //console.log(" " + distance(newData,d) + " $ " + 500)
@@ -282,12 +324,16 @@ function insertNewFeeling(xpos, ypos, feeling, reason) {
 function GetTodayDate() {
   var tdate = new Date();
   var dd = tdate.getDate(); //yields day
-  var MM = tdate.getMonth(); //yields month
+  var MM = tdate.getMonth() + 1; //yields month
   var yyyy = tdate.getFullYear(); //yields year
   if (dd < 10){
     dd = "0" + dd;
   }
-  var currentDate = dd +"" +( MM+1) + "" + yyyy;
+  if (MM < 10){
+    MM = "0" + MM;
+    console.log(dd)
+  }
+  var currentDate = dd +"" + MM + "" + yyyy;
   return currentDate;
 }
 
@@ -295,3 +341,31 @@ function parseURL() {
   feeling = $.query.get("feeling");
   reason = $.query.get("reason");
 }
+
+
+
+
+function getDateDaysBefore(days) {
+  var date = new Date();
+  var thatdate = date - 1000 * 60 * 60 * 24 * days;   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
+  thatdate = new Date(thatdate);
+  var dd = thatdate.getDate(); //yields day
+  var MM = thatdate.getMonth() + 1; //yields month
+  var yyyy = thatdate.getFullYear(); //yields year
+  if (dd < 10){
+    dd = "0" + dd;
+  }
+  if (MM < 10){
+    MM = "0" + MM;
+  }
+  var thedate = dd +"" + MM + "" + yyyy;
+  return thedate;
+}
+
+
+function getPagData() {
+  
+}
+
+
+
