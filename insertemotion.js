@@ -32,7 +32,7 @@ $(document).ready(function() {
   var usersReference = database.ref("users");
   var dataset = [];
 
-  svg = d3.select("body").append("svg").attr({
+  svg = d3.select(".emotion_graph").append("svg").attr({
     width: w,
     height: h
   });
