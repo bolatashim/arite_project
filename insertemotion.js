@@ -28,6 +28,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var usersReference = database.ref("users");
 var map_pagination = ["zerod", "oned" ,"twod", "threed", "fourd", "fived", "sixd"];
+var map_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveFBData() {
@@ -206,6 +207,8 @@ $(document).ready(function() {
     })
   // retrieveFBData();
   retrieveOneWeekData();
+  paginationDateFill();
+
   //parseURL();
 //d3.selectAll("#avatar").attr("visibility", "hidden");
 });
@@ -332,8 +335,6 @@ function getDateDaysBefore(days) {
 }
 
 
-
-
 function selectPagIdx(idx) {
 
   $("#" + $(".active").attr("id")).removeClass("active");
@@ -342,7 +343,14 @@ function selectPagIdx(idx) {
 }
 
 function paginationDateFill() {
-
+  var today = new Date();
+  for (var i = 1; i < 7; i++) {
+    var today = new Date(today - 1000 * 60 * 60 * 24 * 1);
+    var dd = today.getDate(); //yields day
+    var MM = map_months[today.getMonth()]; //yields month 
+    var date = MM + " " + dd
+    $("#" + map_pagination[i] + " > a").text(date);
+  }
 }
 
 
