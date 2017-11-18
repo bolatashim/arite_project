@@ -186,20 +186,42 @@ $(document).ready(function() {
           riffle.transition().duration(100)
             .attr('r',RADIUS)
 
+
+
+            function make_hidden(newData,dataset){
+              d3.selectAll("#avatar")
+                    .data(dataset)
+                    .attr("visibility",function(d,i){
+                      //console.log(distance(newData,d))
+                      //console.log(" " + distance(newData,d) + " $ " + 500)
+                      if(distance_squared(newData,d) < RADIUS*RADIUS){
+                        return "visible"
+                      }
+                      else{
+                        return "hidden"
+
+                      }
+                    });
+            }
+
+          TRANSPARENCY_DELAY = 500;
           d3.selectAll("#avatar")
                 .data(dataset)
-                .attr("visibility",function(d,i){
+                .transition()
+                .duration(TRANSPARENCY_DELAY)
+                .attr("opacity",function(d,i){
                   //console.log(distance(newData,d))
                   //console.log(" " + distance(newData,d) + " $ " + 500)
                   if(distance_squared(newData,d) < RADIUS*RADIUS){
-                    return "visible"
+                    return "1"
                   }
                   else{
-                    return "hidden"
-
+                    return "0"
                   }
-
                 });
+
+              d3.timer(make_hidden(newData,dataset),TRANSPARENCY_DELAY)
+              //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
 
 
