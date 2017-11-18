@@ -77,13 +77,10 @@ $(document).ready(function() {
       .domain([0, SCREEN_HEIGHT])
       .range([0, SCREEN_HEIGHT]);  // Set margins for y specific
 
-  var xAxis = d3.svg.axis().scale(xScale).orient("top");
-  var yAxis = d3.svg.axis().scale(yScale).orient("left");
-
   var circleAttrs = {
       x: function(d) { return d.x - AVAT_WIDTH/2; },
       y: function(d) { return d.y - AVAT_HEIGHT/2; },
-      "xlink:href": function(d){ return d.avatar + "avatar.png"; },
+      "xlink:href": function(d){ return d.avatar + filename; },
       height:AVAT_HEIGHT,
       width:AVAT_WIDTH,
       //r: radius,
@@ -93,18 +90,6 @@ $(document).ready(function() {
 
   };
 
-
-  // Adds X-Axis as a 'g' element
-  svg.append("g").attr({
-    "class": "axis",  // Give class so we can style it
-    transform: "translate(" + [0, margin.top] + ")"  // Translate just moves it down into position (or will be on top)
-  }).call(xAxis);  // Call the xAxis function on the group
-
-  // Adds Y-Axis as a 'g' element
-  svg.append("g").attr({
-    "class": "axis",
-    transform: "translate(" + [margin.left, 0] + ")"
-  }).call(yAxis);  // Call the yAxis function on the group
 
   svg.selectAll("image")
       .data(dataset)
