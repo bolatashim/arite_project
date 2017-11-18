@@ -27,6 +27,7 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 var usersReference = database.ref("users");
+var map_pagination = ["zerod", "oned" ,"twod", "threed", "fourd", "fived", "sixd"];
 
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveFBData() {
@@ -342,8 +343,26 @@ function getDateDaysBefore(days) {
 
 
 function getPagData() {
-  
+  $("#" + $(".active").attr("id") + "> a").text()
 }
+
+
+function selectPagIdx(idx) {
+
+  $("#" + $(".active").attr("id")).removeClass("active");
+  $("#" + map_pagination[idx]).addClass("active");
+  change_day(idx);
+}
+
+function paginationDateFill() {
+
+}
+
+
+
+
+
+
 
 
 
