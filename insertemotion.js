@@ -74,7 +74,7 @@ var circleAttrs = {
     "xlink:href": function(d){ return d.avatar + filename; },
     height:AVAT_HEIGHT,
     width:AVAT_WIDTH,
-    id:"avatar"
+    class:"avatar"
 };
 
 $(document).ready(function() {
@@ -93,8 +93,9 @@ $(document).ready(function() {
       .enter()
       .append("svg:image")
       .attr(circleAttrs)  // Get attributes from circleAttrs var
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut);
+      .on("mouseover", handleMouseAvatarOver)
+      .on("mouseout", handleMouseAvatarOut)
+      .on("click",handleMouseAvatarClick);
   /*svg.append('svg:image')
   .attr({
     'xlink:href': 'trump_avatar.png',  // can also add svg file here
@@ -139,8 +140,9 @@ $(document).ready(function() {
         .enter()
         .append("image")
         .attr(circleAttrs)  // Get attributes from circleAttrs var
-        .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut);
+        .on("mouseover", handleMouseAvatarOver)
+        .on("mouseout", handleMouseAvatarOut)
+        .on("click",handleMouseAvatarClick);
 
       console.log(newData);
       riffle = svg.append("circle")
@@ -156,7 +158,7 @@ $(document).ready(function() {
 
 
 
-      d3.selectAll("#avatar")
+      d3.selectAll(".avatar")
             .data(emotionsdata[current_dayidx])
             .transition()
             .duration(TRANSPARENCY_DELAY)
@@ -181,10 +183,10 @@ $(document).ready(function() {
   paginationDateFill();
 
   //parseURL();
-//d3.selectAll("#avatar").attr("visibility", "hidden");
+//d3.selectAll(".avatar").attr("visibility", "hidden");
 });
 function make_hidden(newData){
-  d3.selectAll("#avatar")
+  d3.selectAll(".avatar")
         .data(emotionsdata[current_dayidx])
         .attr("visibility",function(d,i){
           //console.log(distance(newData,d))
@@ -241,8 +243,8 @@ function change_day(new_day){
     //   .enter()
     //   .append("image")
     //   .attr(circleAttrs)  // Get attributes from circleAttrs var
-    //   .on("mouseover", handleMouseOver)
-    //   .on("mouseout", handleMouseOut);
+    //   .on("mouseover", handleMouseAvatarOver)
+    //   .on("mouseout", handleMouseAvatarOut);
     emotionsdata[current_dayidx] = []
     for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
       emotionsdata[current_dayidx].push(reserve_today[i]);
@@ -255,7 +257,7 @@ function distance_squared(a,b){
   return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
 }
     // Create Event Handlers for mouse
-function handleMouseOver(d, i) {  // Add interactivity
+function handleMouseAvatarOver(d, i) {  // Add interactivity
 
   // Specify where to put label of text
   hover_text = svg.append("text").attr({
@@ -279,12 +281,27 @@ function handleMouseOver(d, i) {  // Add interactivity
     return "#Hugs " + d.reason;  // TODO
   })
 }
-function handleMouseOut(d, i) {
+
+function handleMouseAvatarOut(d, i) {
       // Use D3 to select element, change color back to normal
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
-    }
+}
 
+//todo 
+function handleMouseAvatarClick(d, i){
+
+  console.log("clicked on ",d.avatar,"index:",i)
+  clicked_user = d.avatar; //todo make it user id
+
+  // $('.modal').modal();
+  // $("#modal2").modal("open");
+  // $('select').material_select();
+          
+}
+function hugUser(){
+
+}
 function insertNewFeeling(xpos, ypos, feeling, reason) {
   usersReference.once("value", function(snap){
     snap.forEach(function(user) {
