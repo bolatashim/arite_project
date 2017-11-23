@@ -5,21 +5,19 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 
-  <body>
-    <div class="header-content-inner center-align">
-      <h3>Welcome to A'rite.</h3>
-      <h3>Create your account to join!</h3>
-    </div>
-      <div class="container " style="width: 50%">
+  <body style="background-color: blue">
+    <br>
+    <br>
+      <div class="container" style="width: 40%; background-color: yellow; box-shadow: 5px 5px 5px #888888;padding: 10px 30px 20px 30px">
+        <div class="header-content-inner center-align">
+        <h4>Welcome to A'rite.</h4>
+        <h4>Create your account to join!</h4><br>
+        </div>
         <form onSubmit="return false;">
         <label><b>Email</b></label>
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
-
         <label><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" id="password" required>
-
-        <label><b>Institution </b></label>
-        <input type="text" placeholder="ex) KAIST" name="institution" id="institution" required>
         </form>
 
         
@@ -35,8 +33,8 @@
               <label for="man">Man</label>
               <input name="gender_group" type="radio" id="woman" value="Woman" />
               <label for="woman">Woman</label>
-              <input name="gender_group" type="radio" id="other" value="Other" />
-              <label for="other">Other</label>
+              <input name="gender_group" type="radio" id="other_gen" value="Other" />
+              <label for="other_gen">Other</label>
         </form>
 
         </br>
@@ -47,34 +45,52 @@
           <input name="occupation_group" type="radio" id="undergrad" checked="true" value="Undergrad" />
           <label for="undergrad">Undergrad</label>
           <input name="occupation_group" type="radio" id="grad" value="Graduate" />
-          <label for="grad">Graduate</label>
+          <label for="grad">Grad</label>
           <input name="occupation_group" type="radio" id="prof" value="Professor" />
-          <label for="prof">Professor</label>
+          <label for="prof">Prof</label>
           <input name="occupation_group" type="radio" id="worker" value="Worker" />
-          <label for="worker">Worker</label>
+          <label for="worker">Staff</label>
+          <input name="occupation_group" type="radio" id="other_occ" value="Other" />
+          <label for="other_occ">Other</label>
         </form>
         
         <br>
-        <br>
+        
         
         <form id="avatars" onSubmit="return false;">
-          <label><b>PICK YOUR AVATAR : </b></label>
+          <label><b>PICK YOUR AVATAR : </b></label><br><br>
+          
           <input name="avatar_group" type="radio" id="trump" checked="true" value="trump" />
           <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
-          <input name="avatar_group" type="radio" id="kim" value="kim" />
-          <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
+          
+          <input name="avatar_group" type="radio" id="trump" checked="true" value="trump" />
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+
+          <input name="avatar_group" type="radio" id="trump" checked="true" value="trump" />
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+
+          <input name="avatar_group" type="radio" id="trump" checked="true" value="trump" />
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+
+          <input name="avatar_group" type="radio" id="trump" checked="true" value="trump" />
+          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
+
         </form>
 
-        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-        <div>
-          <button type="submit" id="registerbtn">Sign Up</button>
+        <!-- <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p> -->
+        <br>
+        <div class="right-align">
+          <a href="./login.html" style="float: left; margin-top: 10px" ><u>Already signed up?</u></a>
+          <button type="submit" id="registerbtn" class="btn" >Let's Go</button>
         </div>  
     </div>
+    <br>
+    <br>
     
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <script src="signup_bolat.js"></script>
+    <script src="signup_script.js"></script>
   </body>
 </head>
 </html>
