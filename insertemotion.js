@@ -258,15 +258,26 @@ function distance_squared(a,b){
 function handleMouseOver(d, i) {  // Add interactivity
 
   // Specify where to put label of text
-  svg.append("text").attr({
+  hover_text = svg.append("text").attr({
      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
       x: function() { return d.x - 30; },
-      y: function() { return d.y - 15; }
+      y: function() { return d.y - 45; }
   })
-  .text(function() {
 
-    return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
-  });
+  //append 1st line
+  hover_text.append('tspan').attr({
+    x: function() { return d.x - 30; },
+    dy: "0.6em"
+  }).text(function() {
+    return "I felt "+ d.feeling + "because " + d.reason;  // Value of the text
+  })
+
+  hover_text.append('tspan').attr({
+    x: function() { return d.x - 30; },
+    dy: "1.2em"
+  }).text(function() {
+    return "#Hugs " + d.reason;  // TODO
+  })
 }
 function handleMouseOut(d, i) {
       // Use D3 to select element, change color back to normal
