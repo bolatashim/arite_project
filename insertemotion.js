@@ -173,7 +173,8 @@ $(document).ready(function() {
             });
 
 
-          d3.timer(make_hidden(newData),TRANSPARENCY_DELAY)
+          setTimeout(function(){make_hidden(newData);
+          },TRANSPARENCY_DELAY)
           //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
     })
@@ -201,8 +202,8 @@ function make_hidden(newData){
 }
 function change_day(new_day){
     console.log(current_dayidx,"->",new_day);
-    console.log("cur",emotionsdata[current_dayidx])
-    console.log("new",emotionsdata[new_day])
+    // console.log("cur",emotionsdata[current_dayidx])
+    // console.log("new",emotionsdata[new_day])
     reserve_today = []
     will_disappear = {}
     will_appear = {}
@@ -221,75 +222,68 @@ function change_day(new_day){
       for(var j = 0; j < emotionsdata[new_day].length; j++){
         if(emotionsdata[current_dayidx][i].user_email == emotionsdata[new_day][j].user_email){
             //emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
+            // console.log("Match found!",emotionsdata[current_dayidx][i],i,j);
+            //emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
             emotionsdata[current_dayidx][i].x = emotionsdata[new_day][j].x;
             emotionsdata[current_dayidx][i].y = emotionsdata[new_day][j].y;
             emotionsdata[current_dayidx][i].avatar = emotionsdata[new_day][j].avatar;
             emotionsdata[current_dayidx][i].feeling = emotionsdata[new_day][j].feeling;
             emotionsdata[current_dayidx][i].reason = emotionsdata[new_day][j].reason;
-
+            // console.log("Match found!",emotionsdata[current_dayidx][i],i,j);
         }
       }
     }
+    // console.log("updated cur",emotionsdata[current_dayidx])
+
     //update inputs which are from common users
     svg.selectAll("image")  // For new circle, go through the update process
       .data(emotionsdata[current_dayidx])
       .attr(  "xlink:href", function(d){ return d.avatar + filename; })
-       .transition()
-       .duration(TRANSPARENCY_DELAY)
+      .transition()
+      .duration(TRANSPARENCY_DELAY)
       .attr(circleAttrs)
-      // .attr('visibility',function(d,i){
-      //   if(will_disappear[d.user_email] == 1)
-      //     return 'hidden';
-      //   else
-      //     return 'visible';
-      // })
-      // .attr('opacity',function(d,i){
-      //   if(will_disappear[d.user_email] == 1)
-      //     return 0;
-      //   else
-      //     return 1;
-      // })
-
-    // svg.selectAll("image")  // For new circle, go through the update process
-    //   .data(emotionsdata[current_dayidx])
-    //   .exit()
-    //   .remove()
-
-  //remove old & unnecassary inputs
-     svg.selectAll("image")  //
-       .data(emotionsdata[current_dayidx])
-       .classed('to_be_removed_avatar',function(d,i){
-         if(will_disappear[d.user_email] == 1)
-           return true;
-         else
-           return false;
-       });
-     svg.selectAll("image.to_be_removed_avatar")
-       .transition()
-       .duration(TRANSPARENCY_DELAY)
-       .remove();
-
+      .attr('opacity',function(d,i){
+        if(will_disappear[d.user_email] == 1)
+          return 0;
+        else
+          return 1;
+      })
 
      for(var i = 0;i < emotionsdata[new_day].length; i++){
        if(will_appear[emotionsdata[new_day][i].user_email]){
-         console.log(emotionsdata[new_day][i].user_email);
+         // console.log(emotionsdata[new_day][i].user_email);
          emotionsdata[current_dayidx].push( jQuery.extend(true,{},emotionsdata[new_day][i]));
        }
      }
-
+     //
      // add new avatars
      svg.selectAll("image")  // For new circle, go through the update process
        .data(emotionsdata[current_dayidx])
        .enter()
        .append("image")
        .attr(circleAttrs)  // Get attributes from circleAttrs var
-       .on("mouseover", handleMouseAvatarOver)
-       .on("mouseout", handleMouseAvatarOut)
+       .attr("opacity","0")
        .transition()
-       .duration(TRANSPARENCY_DELAY);
+       .duration(TRANSPARENCY_DELAY)
+       .attr("opacity","1")
 
-    //shallow copy works here
-    //emotionsdata[current_dayidx] = reserve_today
+    setTimeout(function(){
+      svg.selectAll("image")
+       .remove();
+
+     svg.selectAll("image")
+      .data(emotionsdata[new_day])
+      .enter()
+      .append("image")
+      .attr(circleAttrs)  // Get attributes from circleAttrs var
+      .attr('visibility','visible')
+      .attr('opacity',1)
+      .on("mouseover", handleMouseAvatarOver)
+      .on("mouseout", handleMouseAvatarOut)
+      }
+      ,TRANSPARENCY_DELAY);
+
+
 
     for (var i = emotionsdata[current_dayidx].length; i > 0; i--) {
       emotionsdata[current_dayidx].pop();
@@ -297,8 +291,8 @@ function change_day(new_day){
     for(var i = 0;i < reserve_today.length; i++)
       emotionsdata[current_dayidx].push(jQuery.extend(true,{},reserve_today[i]));
 
-    console.log(emotionsdata[current_dayidx])
-    console.log(emotionsdata[new_day])
+    // console.log(emotionsdata[current_dayidx])
+    // console.log(emotionsdata[new_day])
 
     current_dayidx = new_day
 
