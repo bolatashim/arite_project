@@ -74,7 +74,8 @@ var circleAttrs = {
     "xlink:href": function(d){ return d.avatar + filename; },
     height:AVAT_HEIGHT,
     width:AVAT_WIDTH,
-    class:"avatar"
+    class:"avatar",
+    id: function(d){ return d.user_email; }
 };
 
 $(document).ready(function() {
@@ -174,7 +175,8 @@ $(document).ready(function() {
             });
 
 
-          d3.timer(make_hidden(newData),TRANSPARENCY_DELAY)
+          setTimeout(function(){make_hidden(newData);
+          },TRANSPARENCY_DELAY)
           //setTimeout("make_hidden(newData,dataset)" ,0.5)
 
     })
@@ -202,54 +204,99 @@ function make_hidden(newData){
 }
 function change_day(new_day){
     console.log(current_dayidx,"->",new_day);
-    console.log(emotionsdata[current_dayidx])
+    // console.log("cur",emotionsdata[current_dayidx])
+    // console.log("new",emotionsdata[new_day])
     reserve_today = []
-    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
-      reserve_today.push( emotionsdata[current_dayidx][i]);
+    will_disappear = {}
+    will_appear = {}
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
+      reserve_today.push( jQuery.extend(true,{},emotionsdata[current_dayidx][i]));
+      will_disappear[emotionsdata[current_dayidx][i].user_email] = 1;
+    }
+    for(var i = 0;i < emotionsdata[new_day].length; i++)
+      if(will_disappear[emotionsdata[new_day][i].user_email] != 1)
+        will_appear[emotionsdata[new_day][i].user_email] = 1;
+      else {
+        will_disappear[emotionsdata[new_day][i].user_email] = 0;
+      }
 
     for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
       for(var j = 0; j < emotionsdata[new_day].length; j++){
         if(emotionsdata[current_dayidx][i].user_email == emotionsdata[new_day][j].user_email){
-            emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
+            //emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
+            // console.log("Match found!",emotionsdata[current_dayidx][i],i,j);
+            //emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
             emotionsdata[current_dayidx][i].x = emotionsdata[new_day][j].x;
             emotionsdata[current_dayidx][i].y = emotionsdata[new_day][j].y;
-            // avatar : user.val().avatar,
-            // feeling: finput.val().feeling,
-            // reason: finput.val().reason,
-            // user_email: user.val().email
-
+            emotionsdata[current_dayidx][i].avatar = emotionsdata[new_day][j].avatar;
+            emotionsdata[current_dayidx][i].feeling = emotionsdata[new_day][j].feeling;
+            emotionsdata[current_dayidx][i].reason = emotionsdata[new_day][j].reason;
+            // console.log("Match found!",emotionsdata[current_dayidx][i],i,j);
         }
       }
     }
+    // console.log("updated cur",emotionsdata[current_dayidx])
+
     //update inputs which are from common users
     svg.selectAll("image")  // For new circle, go through the update process
       .data(emotionsdata[current_dayidx])
+      .attr(  "xlink:href", function(d){ return d.avatar + filename; })
       .transition()
       .duration(TRANSPARENCY_DELAY)
       .attr(circleAttrs)
+      .attr('opacity',function(d,i){
+        if(will_disappear[d.user_email] == 1)
+          return 0;
+        else
+          return 1;
+      })
+
+     for(var i = 0;i < emotionsdata[new_day].length; i++){
+       if(will_appear[emotionsdata[new_day][i].user_email]){
+         // console.log(emotionsdata[new_day][i].user_email);
+         emotionsdata[current_dayidx].push( jQuery.extend(true,{},emotionsdata[new_day][i]));
+       }
+     }
+     //
+     // add new avatars
+     svg.selectAll("image")  // For new circle, go through the update process
+       .data(emotionsdata[current_dayidx])
+       .enter()
+       .append("image")
+       .attr(circleAttrs)  // Get attributes from circleAttrs var
+       .attr("opacity","0")
+       .transition()
+       .duration(TRANSPARENCY_DELAY)
+       .attr("opacity","1")
+
+    setTimeout(function(){
+      svg.selectAll("image")
+       .remove();
+
+     svg.selectAll("image")
+      .data(emotionsdata[new_day])
+      .enter()
+      .append("image")
+      .attr(circleAttrs)  // Get attributes from circleAttrs var
       .attr('visibility','visible')
-      .attr('opacity','1')
+      .attr('opacity',1)
+      .on("mouseover", handleMouseAvatarOver)
+      .on("mouseout", handleMouseAvatarOut)
+      .on("click",handleMouseAvatarClick);
+      }
+      ,TRANSPARENCY_DELAY);
 
-    // // remove old avatars
-    // svg.selectAll("image")  // For new circle, go through the update process
-    //   .data(emotionsdata[current_dayidx])
-    //   .transition()
-    //   .duration(TRANSPARENCY_DELAY)
-    //   .remove();
-    //
-    // // add new avatars
-    // svg.selectAll("image")  // For new circle, go through the update process
-    //   .data(emotionsdata[new_day])
-    //   .enter()
-    //   .append("image")
-    //   .attr(circleAttrs)  // Get attributes from circleAttrs var
-    //   .on("mouseover", handleMouseAvatarOver)
-    //   .on("mouseout", handleMouseAvatarOut);
-    emotionsdata[current_dayidx] = []
-    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
-      emotionsdata[current_dayidx].push(reserve_today[i]);
 
-    emotionsdata[current_dayidx] = reserve_today;
+
+    for (var i = emotionsdata[current_dayidx].length; i > 0; i--) {
+      emotionsdata[current_dayidx].pop();
+    }
+    for(var i = 0;i < reserve_today.length; i++)
+      emotionsdata[current_dayidx].push(jQuery.extend(true,{},reserve_today[i]));
+
+    // console.log(emotionsdata[current_dayidx])
+    // console.log(emotionsdata[new_day])
+
     current_dayidx = new_day
 
 }
@@ -260,35 +307,21 @@ function distance_squared(a,b){
 function handleMouseAvatarOver(d, i) {  // Add interactivity
 
   // Specify where to put label of text
-  hover_text = svg.append("text").attr({
+  svg.append("text").attr({
      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
       x: function() { return d.x - 30; },
-      y: function() { return d.y - 45; }
+      y: function() { return d.y - 15; }
   })
+  .text(function() {
 
-  //append 1st line
-  hover_text.append('tspan').attr({
-    x: function() { return d.x - 30; },
-    dy: "0.6em"
-  }).text(function() {
-    return "I felt "+ d.feeling + "because " + d.reason;  // Value of the text
-  })
-
-  hover_text.append('tspan').attr({
-    x: function() { return d.x - 30; },
-    dy: "1.2em"
-  }).text(function() {
-    return "#Hugs " + d.reason;  // TODO
-  })
+    return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
+  });
 }
-
 function handleMouseAvatarOut(d, i) {
       // Use D3 to select element, change color back to normal
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
-}
-
-//todo 
+    }
 function handleMouseAvatarClick(d, i){
 
   console.log("clicked on ",d.avatar,"index:",i)
@@ -297,7 +330,7 @@ function handleMouseAvatarClick(d, i){
   // $('.modal').modal();
   // $("#modal2").modal("open");
   // $('select').material_select();
-          
+
 }
 function hugUser(){
 
