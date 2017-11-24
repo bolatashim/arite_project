@@ -74,7 +74,8 @@ var circleAttrs = {
     "xlink:href": function(d){ return d.avatar + filename; },
     height:AVAT_HEIGHT,
     width:AVAT_WIDTH,
-    id:"avatar"
+    class:"avatar",
+    id: function(d){ return d.user_email; }
 };
 
 $(document).ready(function() {
@@ -156,7 +157,7 @@ $(document).ready(function() {
 
 
 
-      d3.selectAll("#avatar")
+      d3.selectAll(".avatar")
             .data(emotionsdata[current_dayidx])
             .transition()
             .duration(TRANSPARENCY_DELAY)
@@ -181,10 +182,10 @@ $(document).ready(function() {
   paginationDateFill();
 
   //parseURL();
-//d3.selectAll("#avatar").attr("visibility", "hidden");
+//d3.selectAll(".avatar").attr("visibility", "hidden");
 });
 function make_hidden(newData){
-  d3.selectAll("#avatar")
+  d3.selectAll(".avatar")
         .data(emotionsdata[current_dayidx])
         .attr("visibility",function(d,i){
           //console.log(distance(newData,d))
@@ -200,7 +201,8 @@ function make_hidden(newData){
 }
 function change_day(new_day){
     console.log(current_dayidx,"->",new_day);
-    console.log(emotionsdata[current_dayidx])
+    console.log("cur",emotionsdata[current_dayidx])
+    console.log("new",emotionsdata[new_day])
     reserve_today = []
     will_disappear = {}
     will_appear = {}
@@ -231,30 +233,42 @@ function change_day(new_day){
     //update inputs which are from common users
     svg.selectAll("image")  // For new circle, go through the update process
       .data(emotionsdata[current_dayidx])
-      //.transition()
-      //.duration(TRANSPARENCY_DELAY)
+      .attr(  "xlink:href", function(d){ return d.avatar + filename; })
+       .transition()
+       .duration(TRANSPARENCY_DELAY)
       .attr(circleAttrs)
-      .attr('visibility','visible')
-      .attr('opacity','1')
+      // .attr('visibility',function(d,i){
+      //   if(will_disappear[d.user_email] == 1)
+      //     return 'hidden';
+      //   else
+      //     return 'visible';
+      // })
+      // .attr('opacity',function(d,i){
+      //   if(will_disappear[d.user_email] == 1)
+      //     return 0;
+      //   else
+      //     return 1;
+      // })
+
+    // svg.selectAll("image")  // For new circle, go through the update process
+    //   .data(emotionsdata[current_dayidx])
+    //   .exit()
+    //   .remove()
 
   //remove old & unnecassary inputs
      svg.selectAll("image")  //
        .data(emotionsdata[current_dayidx])
-       //.transition()
-       // .duration(TRANSPARENCY_DELAY)
-       // .attr(circleAttrs)
-       .attr('visibility',function(d,i){
+       .classed('to_be_removed_avatar',function(d,i){
          if(will_disappear[d.user_email] == 1)
-           return 'hidden';
+           return true;
          else
-           return 'visible';
-       })
-       .attr('opacity',function(d,i){
-         if(will_disappear[d.user_email] == 1)
-           return 0;
-         else
-           return 1;
-       })
+           return false;
+       });
+     svg.selectAll("image.to_be_removed_avatar")
+       .transition()
+       .duration(TRANSPARENCY_DELAY)
+       .remove();
+
 
      for(var i = 0;i < emotionsdata[new_day].length; i++){
        if(will_appear[emotionsdata[new_day][i].user_email]){
@@ -271,12 +285,20 @@ function change_day(new_day){
        .attr(circleAttrs)  // Get attributes from circleAttrs var
        .on("mouseover", handleMouseAvatarOver)
        .on("mouseout", handleMouseAvatarOut)
-       .each(function(d,i){ console.log("asdasd")});
+       .transition()
+       .duration(TRANSPARENCY_DELAY);
 
     //shallow copy works here
-    emotionsdata[current_dayidx] = reserve_today
-    // for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
-    //   emotionsdata[current_dayidx].push(jQuery.extend(true,{},reserve_today[i]));
+    //emotionsdata[current_dayidx] = reserve_today
+
+    for (var i = emotionsdata[current_dayidx].length; i > 0; i--) {
+      emotionsdata[current_dayidx].pop();
+    }
+    for(var i = 0;i < reserve_today.length; i++)
+      emotionsdata[current_dayidx].push(jQuery.extend(true,{},reserve_today[i]));
+
+    console.log(emotionsdata[current_dayidx])
+    console.log(emotionsdata[new_day])
 
     current_dayidx = new_day
 
