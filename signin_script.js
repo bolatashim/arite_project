@@ -15,36 +15,16 @@ $(document).ready(function() {
   
   const emailtxt = document.getElementById("email");
   const passwordtxt = document.getElementById("password");
-  const institutiontxt = document.getElementById("institution");
-  const registerbtn = document.getElementById("registerbtn");
-  var occupation = "Undergrad";
-  var gender = "Man";
-  var age = 20;
-  var avatar = 0;
-
-  function addUser(user) {
-    usersReference.push({
-      email: user.email,
-      institution: institutiontxt.value,
-      gender: gender,
-      occupation: occupation,
-      age: age,
-      avatar: avatar
-    });
-    alert("You are signed up!!!");
-  }
+  const loginbtn = document.getElementById("loginbtn");
 
   //registration event listener
-  registerbtn.addEventListener("click", e => {
+  loginbtn.addEventListener("click", e => {
     const email = emailtxt.value;
-    const password = passwordtxt.value;
+    const pass = passwordtxt.value;
     const auth = firebase.auth();
-
-    console.log(email, password);
-
-    const promise = auth.createUserWithEmailAndPassword(email, password);
+    const promise = auth.signInWithEmailAndPassword(email, pass);
     promise
-      .then(user => addUser(user))
+      .then(user => window.location="new_pos.html")
       .catch(e => console.log(e.message));
   });
 
@@ -74,18 +54,4 @@ $(document).ready(function() {
         }
     }
   });
-
-  function addKim(user) {
-    usersReference.push({
-      email: "kardashian.kim@gmail.com",
-      institution: "US",
-      gender: "female",
-      occupation: "lotsofthings",
-      age: "37",
-      avatar: 1
-    });
-    alert("You are signed up!!!");
-  }
-  // addKim();
-  console.log("hehehe");
 });
