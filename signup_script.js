@@ -83,11 +83,23 @@ $(document).ready(function() {
 
   $('input[name="avatar_group"]', '#avatars').on('change', function() {
     if($(this).is(':checked')) {
-        if ($(this).val() == "kim") {
-          avatar = 1;
-        } else {
-          avatar = 0;
-        }
+      var ava = $(this).val();
+      switch(ava) {
+          case "anglerfish":
+              avatar = 0;
+              break;
+          case "crab":
+              avatar = 1;
+              break;
+          case "squid":
+              avatar = 2;
+              break;
+          case "starfish":
+              avatar = 3;
+              break;
+          default: //whale
+              avatar = 4;
+      }
     }
   });
 
