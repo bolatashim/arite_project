@@ -93,8 +93,8 @@ $(document).ready(function() {
       .enter()
       .append("svg:image")
       .attr(circleAttrs)  // Get attributes from circleAttrs var
-      .on("mouseover", handleMouseOver)
-      .on("mouseout", handleMouseOut);
+      .on("mouseover", handleMouseAvatarOver)
+      .on("mouseout", handleMouseAvatarOut);
   /*svg.append('svg:image')
   .attr({
     'xlink:href': 'trump_avatar.png',  // can also add svg file here
@@ -139,8 +139,8 @@ $(document).ready(function() {
         .enter()
         .append("image")
         .attr(circleAttrs)  // Get attributes from circleAttrs var
-        .on("mouseover", handleMouseOver)
-        .on("mouseout", handleMouseOut);
+        .on("mouseover", handleMouseAvatarOver)
+        .on("mouseout", handleMouseAvatarOut);
 
       console.log(newData);
       riffle = svg.append("circle")
@@ -202,19 +202,28 @@ function change_day(new_day){
     console.log(current_dayidx,"->",new_day);
     console.log(emotionsdata[current_dayidx])
     reserve_today = []
-    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
-      reserve_today.push( emotionsdata[current_dayidx][i]);
+    will_disappear = {}
+    will_appear = {}
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
+      reserve_today.push( jQuery.extend(true,{},emotionsdata[current_dayidx][i]));
+      will_disappear[emotionsdata[current_dayidx][i].user_email] = 1;
+    }
+    for(var i = 0;i < emotionsdata[new_day].length; i++)
+      if(will_disappear[emotionsdata[new_day][i].user_email] != 1)
+        will_appear[emotionsdata[new_day][i].user_email] = 1;
+      else {
+        will_disappear[emotionsdata[new_day][i].user_email] = 0;
+      }
 
     for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
       for(var j = 0; j < emotionsdata[new_day].length; j++){
         if(emotionsdata[current_dayidx][i].user_email == emotionsdata[new_day][j].user_email){
-            emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
+            //emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
             emotionsdata[current_dayidx][i].x = emotionsdata[new_day][j].x;
             emotionsdata[current_dayidx][i].y = emotionsdata[new_day][j].y;
-            // avatar : user.val().avatar,
-            // feeling: finput.val().feeling,
-            // reason: finput.val().reason,
-            // user_email: user.val().email
+            emotionsdata[current_dayidx][i].avatar = emotionsdata[new_day][j].avatar;
+            emotionsdata[current_dayidx][i].feeling = emotionsdata[new_day][j].feeling;
+            emotionsdata[current_dayidx][i].reason = emotionsdata[new_day][j].reason;
 
         }
       }
@@ -222,32 +231,53 @@ function change_day(new_day){
     //update inputs which are from common users
     svg.selectAll("image")  // For new circle, go through the update process
       .data(emotionsdata[current_dayidx])
-      .transition()
-      .duration(TRANSPARENCY_DELAY)
+      //.transition()
+      //.duration(TRANSPARENCY_DELAY)
       .attr(circleAttrs)
       .attr('visibility','visible')
       .attr('opacity','1')
 
-    // // remove old avatars
-    // svg.selectAll("image")  // For new circle, go through the update process
-    //   .data(emotionsdata[current_dayidx])
-    //   .transition()
-    //   .duration(TRANSPARENCY_DELAY)
-    //   .remove();
-    //
-    // // add new avatars
-    // svg.selectAll("image")  // For new circle, go through the update process
-    //   .data(emotionsdata[new_day])
-    //   .enter()
-    //   .append("image")
-    //   .attr(circleAttrs)  // Get attributes from circleAttrs var
-    //   .on("mouseover", handleMouseOver)
-    //   .on("mouseout", handleMouseOut);
-    emotionsdata[current_dayidx] = []
-    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
-      emotionsdata[current_dayidx].push(reserve_today[i]);
+  //remove old & unnecassary inputs
+     svg.selectAll("image")  //
+       .data(emotionsdata[current_dayidx])
+       //.transition()
+       // .duration(TRANSPARENCY_DELAY)
+       // .attr(circleAttrs)
+       .attr('visibility',function(d,i){
+         if(will_disappear[d.user_email] == 1)
+           return 'hidden';
+         else
+           return 'visible';
+       })
+       .attr('opacity',function(d,i){
+         if(will_disappear[d.user_email] == 1)
+           return 0;
+         else
+           return 1;
+       })
 
-    emotionsdata[current_dayidx] = reserve_today;
+     for(var i = 0;i < emotionsdata[new_day].length; i++){
+       if(will_appear[emotionsdata[new_day][i].user_email]){
+         console.log(emotionsdata[new_day][i].user_email);
+         emotionsdata[current_dayidx].push( jQuery.extend(true,{},emotionsdata[new_day][i]));
+       }
+     }
+
+     // add new avatars
+     svg.selectAll("image")  // For new circle, go through the update process
+       .data(emotionsdata[current_dayidx])
+       .enter()
+       .append("image")
+       .attr(circleAttrs)  // Get attributes from circleAttrs var
+       .on("mouseover", handleMouseAvatarOver)
+       .on("mouseout", handleMouseAvatarOut)
+       .each(function(d,i){ console.log("asdasd")});
+
+    //shallow copy works here
+    emotionsdata[current_dayidx] = reserve_today
+    // for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
+    //   emotionsdata[current_dayidx].push(jQuery.extend(true,{},reserve_today[i]));
+
     current_dayidx = new_day
 
 }
@@ -255,7 +285,7 @@ function distance_squared(a,b){
   return (a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y);
 }
     // Create Event Handlers for mouse
-function handleMouseOver(d, i) {  // Add interactivity
+function handleMouseAvatarOver(d, i) {  // Add interactivity
 
   // Specify where to put label of text
   svg.append("text").attr({
@@ -268,7 +298,7 @@ function handleMouseOver(d, i) {  // Add interactivity
     return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
   });
 }
-function handleMouseOut(d, i) {
+function handleMouseAvatarOut(d, i) {
       // Use D3 to select element, change color back to normal
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
