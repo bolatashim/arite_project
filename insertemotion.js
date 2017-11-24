@@ -204,76 +204,52 @@ function change_day(new_day){
     console.log(current_dayidx,"->",new_day);
     console.log(emotionsdata[current_dayidx])
     reserve_today = []
-    will_disappear = {}
-    will_appear = {}
-    for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
       reserve_today.push( emotionsdata[current_dayidx][i]);
-      will_disappear[emotionsdata[current_dayidx][i].user_email] = 1;
-    }
-    for(var i = 0;i < emotionsdata[new_day].length; i++)
-      will_appear[emotionsdata[new_day][i].user_email] = 1;
-    
+
     for(var i = 0;i < emotionsdata[current_dayidx].length; i++){
       for(var j = 0; j < emotionsdata[new_day].length; j++){
         if(emotionsdata[current_dayidx][i].user_email == emotionsdata[new_day][j].user_email){
             emotionsdata[current_dayidx][i] = emotionsdata[new_day][j];
             emotionsdata[current_dayidx][i].x = emotionsdata[new_day][j].x;
             emotionsdata[current_dayidx][i].y = emotionsdata[new_day][j].y;
-            will_disappear[emotionsdata[current_dayidx][i].user_email] = 0
-            will_appear[emotionsdata[new_day][j].user_email] = 0
-          
+            // avatar : user.val().avatar,
+            // feeling: finput.val().feeling,
+            // reason: finput.val().reason,
+            // user_email: user.val().email
+
         }
       }
     }
-    //update
-    svg.selectAll("image")  // 
+    //update inputs which are from common users
+    svg.selectAll("image")  // For new circle, go through the update process
       .data(emotionsdata[current_dayidx])
-      // .transition()
-      // .duration(TRANSPARENCY_DELAY)
+      .transition()
+      .duration(TRANSPARENCY_DELAY)
       .attr(circleAttrs)
       .attr('visibility','visible')
       .attr('opacity','1')
 
-    //remove old & unnecassary inputs
-    svg.selectAll("image")  // 
-      .data(emotionsdata[current_dayidx])
-      //.transition()
-      // .duration(TRANSPARENCY_DELAY)
-      // .attr(circleAttrs)
-      .attr('visibility',function(d,i){ 
-        if(will_disappear[d.user_email] == 1) 
-          return 'hidden';
-        else
-          return 'visible';
-      })
-      .attr('opacity',function(d,i){ 
-        if(will_disappear[d.user_email] == 1) 
-          return 0;
-        else
-          return 1;
-      })
-
-    for(var i = 0;i < emotionsdata[new_day].length; i++){
-      if(will_appear[emotionsdata[new_day][i].user_email]){
-        console.log(emotionsdata[new_day][i].user_email);
-        emotionsdata[current_dayidx].push( emotionsdata[new_day][i]);
-      }
-    }
-    
-    // add new avatars
-    svg.selectAll("image")  // For new circle, go through the update process
-      .data(emotionsdata[current_dayidx])
-      .enter()
-      .append("image")
-      .attr(circleAttrs)  // Get attributes from circleAttrs var
-      .on("mouseover", handleMouseAvatarOver)
-      .on("mouseout", handleMouseAvatarOut)
-      .each(function(d,i){ console.log("asdasd")});
-
+    // // remove old avatars
+    // svg.selectAll("image")  // For new circle, go through the update process
+    //   .data(emotionsdata[current_dayidx])
+    //   .transition()
+    //   .duration(TRANSPARENCY_DELAY)
+    //   .remove();
+    //
+    // // add new avatars
+    // svg.selectAll("image")  // For new circle, go through the update process
+    //   .data(emotionsdata[new_day])
+    //   .enter()
+    //   .append("image")
+    //   .attr(circleAttrs)  // Get attributes from circleAttrs var
+    //   .on("mouseover", handleMouseAvatarOver)
+    //   .on("mouseout", handleMouseAvatarOut);
     emotionsdata[current_dayidx] = []
-    for(var i = 0;i < reserve_today.length; i++)
+    for(var i = 0;i < emotionsdata[current_dayidx].length; i++)
       emotionsdata[current_dayidx].push(reserve_today[i]);
 
+    emotionsdata[current_dayidx] = reserve_today;
     current_dayidx = new_day
 
 }
