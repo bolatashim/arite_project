@@ -95,7 +95,8 @@ $(document).ready(function() {
       .append("svg:image")
       .attr(circleAttrs)  // Get attributes from circleAttrs var
       .on("mouseover", handleMouseAvatarOver)
-      .on("mouseout", handleMouseAvatarOut);
+      .on("mouseout", handleMouseAvatarOut)
+      .on("click",handleMouseAvatarClick);
   /*svg.append('svg:image')
   .attr({
     'xlink:href': 'trump_avatar.png',  // can also add svg file here
@@ -141,7 +142,8 @@ $(document).ready(function() {
         .append("image")
         .attr(circleAttrs)  // Get attributes from circleAttrs var
         .on("mouseover", handleMouseAvatarOver)
-        .on("mouseout", handleMouseAvatarOut);
+        .on("mouseout", handleMouseAvatarOut)
+        .on("click",handleMouseAvatarClick);
 
       console.log(newData);
       riffle = svg.append("circle")
@@ -280,6 +282,7 @@ function change_day(new_day){
       .attr('opacity',1)
       .on("mouseover", handleMouseAvatarOver)
       .on("mouseout", handleMouseAvatarOut)
+      .on("click",handleMouseAvatarClick);
       }
       ,TRANSPARENCY_DELAY);
 
