@@ -319,7 +319,19 @@ function handleMouseAvatarOut(d, i) {
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
     }
+function handleMouseAvatarClick(d, i){
 
+  console.log("clicked on ",d.avatar,"index:",i)
+  clicked_user = d.avatar; //todo make it user id
+
+  // $('.modal').modal();
+  // $("#modal2").modal("open");
+  // $('select').material_select();
+
+}
+function hugUser(){
+
+}
 function insertNewFeeling(xpos, ypos, feeling, reason) {
   usersReference.once("value", function(snap){
     snap.forEach(function(user) {
