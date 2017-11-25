@@ -32,6 +32,7 @@ var map_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 var usertofeel = "bolat@kaist.ac.kr"
 var data_x = 0;
 var data_y = 0;
+var mailtoavatar = {};
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveOneWeekData() {
   var prevdates = [];
@@ -40,6 +41,9 @@ function retrieveOneWeekData() {
   }
   usersReference.once("value", function(snap){
       snap.forEach(function(user){
+
+
+        mailtoavatar[user.val().email] = user.val().avatar;
 
         database.ref("users/" + user.key + "/days").once("value",  function(day) {
           day.forEach(function(finput){
@@ -53,7 +57,7 @@ function retrieveOneWeekData() {
               }
             }
 
-            console.log(emotionsdata, day_index, "asddddasdjaeifjaefjaepofja")
+            // console.log(emotionsdata, day_index, "asddddasdjaeifjaefjaepofja")
 
             if (!(day_index == -1)) {
               emotionsdata[day_index].push({
@@ -138,7 +142,7 @@ $(document).ready(function() {
   });
 
       // make sure you take care of the firebase's latency asynchronosity
-  console.log(emotionsdata, "asddddasdjaeifjaefjaepofja")
+  // console.log(emotionsdata, "asddddasdjaeifjaefjaepofja")
 
   svg.selectAll("image")
       .data(emotionsdata[current_dayidx])
@@ -240,8 +244,10 @@ $(document).ready(function() {
 
     })
   // retrieveFBData();
+
   retrieveOneWeekData();
   paginationDateFill();
+
 
   //parseURL();
 //d3.selectAll(".avatar").attr("visibility", "hidden");
@@ -374,9 +380,7 @@ function handleMouseAvatarOver(d, i) {  // Add interactivity
   .text(function() {
     // (d.feeling);
     
-    
-    
-    return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
+    return "Because " +  d.reason;  // Value of the text
   });
 }
 function handleMouseAvatarOut(d, i) {
@@ -478,3 +482,4 @@ function paginationDateFill() {
     $("#" + map_pagination[i] + " > a").text(date);
   }
 }
+

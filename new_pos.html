@@ -62,7 +62,7 @@
 
   <div id="modal1" class="modal">
       <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
-        <h3>How do you feel today?</h3>
+        <h4>Why do you feel this way?</h4>
         <form>
           <select id="input-feeling-select">
             <option selected>Select</option>
@@ -122,19 +122,6 @@
     
     <div>
       <a href="instructions.html" class="waves-effect waves-light btn" style="align-content: center; margin: 20px auto;  width: 100%">Need help?</a>
-
-
-
-      <div class="switch"  style="align-content: center; margin: 20px auto; width: 100%">
-        <h6 style="margin-top: 20px; text-align: center;">Your Avatar : </h6>
-        <label>
-          <label for="kim"><img src="1avatar_cur.png" alt="Trump"></label>
-            <input name="avatar_switch" type="checkbox" checked="true">
-          <span class="lever"></span>
-          <label for="trump"><img src="0avatar_cur.png" alt="Trump"></label>
-        </label>
-        <h5 id="current_avatar_label" style="margin-top: 20px; text-align: center;">Trump</h5>
-      </div>
     </div>
   </div>
   </div>
@@ -163,7 +150,8 @@
       function checkLoggedIn() {
         var user = firebase.auth().currentUser;
         if (user) {
-          console.log("Ur logged in as " + user.email);
+          avatar_index = mailtoavatar[user.email];
+
           activateDropAvatar();
 
         } else {
@@ -219,8 +207,13 @@
         var theavatar = "avatar/" +  avatar_index + "avatar_cur.png"
         $("body").css('cursor','url('+ theavatar + '),auto');
         stupidvar = 0;
-
-        alert(avatar_index)
+        if (avatar_index) { 
+          //do nothing
+          alert("Locate your feeling on the graph")
+        }else{
+          alert("Please, try again")
+        }
+        
       }
 
       $('input[name="avatar_switch"]').on('change', function() {
