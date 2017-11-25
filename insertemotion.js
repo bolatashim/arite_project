@@ -93,7 +93,7 @@ function handleMouseAvatarClick(d, i) {
 
   $('.modal').modal();
   $("#avatarmodal").modal("open");
-  $("#feelingreport").text("I feel " + d.feeling + " because " + d.reason + " em " + d.user_email);
+  $("#feelingreport").text(d.reason);
   usertofeel = d.user_email;
 }
 
