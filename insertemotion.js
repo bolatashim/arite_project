@@ -189,6 +189,7 @@ $(document).ready(function() {
         data_x = newData.x;
         data_y = newData.y;
 
+        $("body").css('cursor','pointer');
         $("#modal1").modal("open");
 
         // insertNewFeeling(newData.x, newData.y, "thefeeling", reason);
