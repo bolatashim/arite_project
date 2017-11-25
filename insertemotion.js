@@ -11,6 +11,7 @@ var SCREEN_WIDTH = 800;
 var current_dayidx = 0;
 var emotionsdata = [[], [], [], [], [], [], []]; //these are the indices for previous days. first is today and so on...
 var TRANSPARENCY_DELAY = 500;
+var TEXT_COLOR = "red";
 var w = window.innerWidth*0.8,
     h = window.innerHeight*0.8,
     margin = { top: 40, right: 20, bottom: 20, left: 40 }
@@ -214,7 +215,7 @@ $(document).ready(function() {
         .attr('cy',coords[1])
         .attr('r',0)
         .attr('fill','none')
-        .attr('stroke','black')
+        .attr('stroke','white')
 
       riffle.transition().duration(100)
         .attr('r',RADIUS)
@@ -375,7 +376,8 @@ function handleMouseAvatarOver(d, i) {  // Add interactivity
   svg.append("text").attr({
      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
       x: function() { return d.x - 30; },
-      y: function() { return d.y - 15; }
+      y: function() { return d.y - 15; },
+      "style": "fill: " + TEXT_COLOR
   })
   .text(function() {
     // (d.feeling);
