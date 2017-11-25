@@ -3,7 +3,7 @@ var feeling = "Happy";
 var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 var avatar_index = 0;
 const RADIUS = 200;
-var filename = 'avatar.png';
+var filename = 'avatar_cur.png';
 var AVAT_HEIGHT = 50;
 var AVAT_WIDTH = 50;
 var SCREEN_HEIGHT = 600;
@@ -29,7 +29,9 @@ var database = firebase.database();
 var usersReference = database.ref("users");
 var map_pagination = ["zerod", "oned" ,"twod", "threed", "fourd", "fived", "sixd"];
 var map_months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+var usertofeel = "bolat@kaist.ac.kr"
+var data_x = 0;
+var data_y = 0;
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveOneWeekData() {
   var prevdates = [];
@@ -71,12 +73,61 @@ function retrieveOneWeekData() {
 var circleAttrs = {
     x: function(d) { return d.x - AVAT_WIDTH/2; },
     y: function(d) { return d.y - AVAT_HEIGHT/2; },
-    "xlink:href": function(d){ return d.avatar + filename; },
+    "xlink:href": function(d){ return  "avatar/" + d.avatar + filename; },
     height:AVAT_HEIGHT,
     width:AVAT_WIDTH,
     class:"avatar",
     id: function(d){ return d.user_email; }
 };
+
+
+
+function handleMouseAvatarClick(d, i) {
+
+  console.log("clicked on ",d.avatar,"index:",i)
+  clicked_user = d.avatar; 
+
+  $('.modal').modal();
+  $("#avatarmodal").modal("open");
+  $("#feelingreport").text("I feel " + d.feeling + " because " + d.reason + " em " + d.user_email);
+  usertofeel = d.user_email;
+}
+
+function tofeelUser() {
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    console.log("inserting a connection between " + user.email + " and " + usertofeel);
+    insertNewConnection(user.email, usertofeel)
+  
+  } else {
+
+    alert("Please, sign in order to express your sympathy...")
+    window.location="login.html"
+  
+  }
+}
+
+
+
+function insertNewConnection(start_user, end_user) {
+  usersReference.once("value", function(snap){
+    snap.forEach(function(user) {
+      
+      if (user.val().email == start_user) {
+        
+        database.ref("users/" + user.key + "/conections").push({
+          email: end_user,
+          other: "test"
+        });
+
+      }
+    });
+  });
+}
+
+
+
 
 $(document).ready(function() {
   $('.modal').modal();
@@ -107,6 +158,10 @@ $(document).ready(function() {
   });*/
 
 
+
+
+
+
   // On Click, we want to add data to the array and chart
   svg.on("click", function() {
       svg.selectAll("circle").remove()
@@ -114,23 +169,27 @@ $(document).ready(function() {
       console.log(coords[0])
       console.log(Math.round(coords[0]))
       //Normally we go from data to pixels, but here we're doing pixels to data
-      var newData= {
+      var newData = {
         x: Math.round( coords[0]),  // Takes the pixel number to convert to number
         y: Math.round( coords[1]),
         height:AVAT_HEIGHT,
         width:AVAT_WIDTH,
-        "xlink:href": avatar_index + "avatar.png",
+        // "xlink:href": "avatar/" + avatar_index + filename,
         avatar : avatar_index,
         feeling : feeling,
         reason : reason
       };
 
       if (stupidvar < 1) {
-        insertNewFeeling(newData.x, newData.y, newData.feeling, newData.reason);
-        emotionsdata[current_dayidx].push(newData);   // Push data to our array
-        $("body").css('cursor','pointer');
-        stupidvar += 1;
+        data_x = newData.x;
+        data_y = newData.y;
 
+        $("#modal1").modal("open");
+
+        // insertNewFeeling(newData.x, newData.y, "thefeeling", reason);
+        // emotionsdata[current_dayidx].push(newData);   // Push data to our array
+        // $("body").css('cursor','pointer');
+        // stupidvar += 1;
       }
       console.log("feeling is "+ feeling);
 
@@ -313,7 +372,10 @@ function handleMouseAvatarOver(d, i) {  // Add interactivity
       y: function() { return d.y - 15; }
   })
   .text(function() {
-
+    // (d.feeling);
+    
+    
+    
     return "I felt "+ d.feeling + " because " + d.reason;  // Value of the text
   });
 }
@@ -322,19 +384,22 @@ function handleMouseAvatarOut(d, i) {
       // Select text by id and then remove
       d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
     }
-function handleMouseAvatarClick(d, i){
 
-  console.log("clicked on ",d.avatar,"index:",i)
-  clicked_user = d.avatar; //todo make it user id
+// function handleMouseAvatarClick(d, i){
 
-  // $('.modal').modal();
-  // $("#modal2").modal("open");
-  // $('select').material_select();
+//   console.log("clicked on ",d.avatar,"index:",i)
+//   clicked_user = d.avatar; 
 
-}
-function hugUser(){
+//   $('.modal').modal();
+//   $("#avatarmodal").modal("open");
+//   $("#feelingreport").text("I feel " + d.feeling + " because " + d.reason);
 
-}
+// }
+
+// function tofeelUser(user){
+
+// }
+
 function insertNewFeeling(xpos, ypos, feeling, reason) {
   usersReference.once("value", function(snap){
     snap.forEach(function(user) {
