@@ -214,7 +214,7 @@ $(document).ready(function() {
         .attr('cy',coords[1])
         .attr('r',0)
         .attr('fill','none')
-        .attr('stroke','black')
+        .attr('stroke','white')
 
       riffle.transition().duration(100)
         .attr('r',RADIUS)
