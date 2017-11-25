@@ -204,6 +204,14 @@
           emotionsdata[current_dayidx].push(newData);   // Push data to our array
           // $("body").css('cursor','pointer');
           stupidvar += 1;
+          svg.selectAll("image")  // For new circle, go through the update process
+            .data(emotionsdata[current_dayidx])
+            .enter()
+            .append("image")
+            .attr(circleAttrs)  // Get attributes from circleAttrs var
+            .on("mouseover", handleMouseAvatarOver)
+            .on("mouseout", handleMouseAvatarOut)
+            .on("click",handleMouseAvatarClick);
           // activateDropAvatar();
         }
       }
