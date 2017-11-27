@@ -4,8 +4,8 @@ var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 var avatar_index = 0;
 const RADIUS = 200;
 var filename = 'avatar_cur.png';
-var AVAT_HEIGHT = 50;
-var AVAT_WIDTH = 50;
+var AVAT_HEIGHT = 30;
+var AVAT_WIDTH = 30;
 var SCREEN_HEIGHT = 600;
 var SCREEN_WIDTH = 800;
 var current_dayidx = 0;
@@ -90,7 +90,7 @@ var circleAttrs = {
 function handleMouseAvatarClick(d, i) {
 
   console.log("clicked on ",d.avatar,"index:",i)
-  clicked_user = d.avatar; 
+  clicked_user = d.avatar;
 
   $('.modal').modal();
   $("#avatarmodal").modal("open");
@@ -104,12 +104,12 @@ function tofeelUser() {
   if (user) {
     console.log("inserting a connection between " + user.email + " and " + usertofeel);
     insertNewConnection(user.email, usertofeel)
-  
+
   } else {
 
     alert("Please, sign in order to express your sympathy...")
     window.location="login.html"
-  
+
   }
 }
 
@@ -118,14 +118,12 @@ function tofeelUser() {
 function insertNewConnection(start_user, end_user) {
   usersReference.once("value", function(snap){
     snap.forEach(function(user) {
-      
+
       if (user.val().email == start_user) {
-        
         database.ref("users/" + user.key + "/connections").push({
           email: end_user,
           other: "test"
         });
-
       }
     });
   });
@@ -382,7 +380,7 @@ function handleMouseAvatarOver(d, i) {  // Add interactivity
   })
   .text(function() {
     // (d.feeling);
-    
+
     return "Because " +  d.reason;  // Value of the text
   });
 }
@@ -395,7 +393,7 @@ function handleMouseAvatarOut(d, i) {
 // function handleMouseAvatarClick(d, i){
 
 //   console.log("clicked on ",d.avatar,"index:",i)
-//   clicked_user = d.avatar; 
+//   clicked_user = d.avatar;
 
 //   $('.modal').modal();
 //   $("#avatarmodal").modal("open");
@@ -485,4 +483,3 @@ function paginationDateFill() {
     $("#" + map_pagination[i] + " > a").text(date);
   }
 }
-
