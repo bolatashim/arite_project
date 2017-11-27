@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="script/timeknots.js" type="application/javascript"></script>
+<!-- <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet"> -->
+<!-- <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"> -->
+<style>
+body {
+  font: 18px "Helvetica Neue";
+  font-weight:300;
+  text-rendering: optimizeLegibility;
+  margin-left: 20px;
+}
+</style>
+</head>
+<body>
+<div class="row">
+<div class="span3">
+ <div id="timeline2"></div>
+</div>
+</div>
+<script type="text/javascript">
+
+var myTimeline = [{name:"Wake up", date: "2012-09-28T00:00:00"},
+  {name:"Because I am TRUMP", 	date:"2012-09-28T00:00:00"},
+  {name:"Because I am cool", 	date:"2012-09-28T00:00:00"},
+  {name:"Check email", date:	"2012-09-28T00:00:00"},
+  {name:"Lunch", date:	"2012-09-28T00:00:00"},
+  {name:"Send report", date:	"2012-09-26T00:00:00"},
+  {name:"Pick kids", date:	"2012-09-27T00:00:00"},
+  {name:"Dinner", date:	"2012-09-29T18:13:00"},
+  {name:"Watch a movie", date:	"2012-09-30T20:16:00"},
+  {name:"Go to sleep", date:	"2012-09-31T23:00:00"}
+];
+
+TimeKnots.draw("#timeline2", myTimeline, {radius: 25, horizontalLayout: true, height: 450, width:1000, showLabels: true});
+
+
+
+var agenda = new Array();
+var day = 86400000;
+var today = new Date();
+var series = ["Serie1", "Serie 2", "Serie 3"];
+for(var i=-3; i<4; i++){
+  
+  var thisdate = new Date(today.getTime() + i*day).toUTCString();
+  
+  var thiscolor = "#44a";
+  var thisname = "Free day";
+  
+  if(Math.random()>0.5){
+   thiscolor = "#b00";
+   thisname = "Meeting";
+  }
+
+  serieId = parseInt(Math.random()*100) %3;
+  thisseries = series[serieId];
+  var thiswidth = (i<0)?1:5;
+  agenda.push({date: thisdate, name: thisname,  series: thisseries })
+}
+TimeKnots.draw("#timeline3", agenda, {dateFormat: "%A", radius: 20});
+
+
+</script>
+
+</body>
+</html>
+
