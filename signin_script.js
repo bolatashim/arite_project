@@ -12,7 +12,7 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
   var usersReference = database.ref("users");
-  
+
   const emailtxt = document.getElementById("email");
   const passwordtxt = document.getElementById("password");
   const loginbtn = document.getElementById("loginbtn");
@@ -24,7 +24,7 @@ $(document).ready(function() {
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, pass);
     promise
-      .then(user => window.location="new_pos.html")
+      .then(user => window.location="main.html")
       .catch(e => console.log(e.message));
   });
 

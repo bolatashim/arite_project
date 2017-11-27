@@ -12,7 +12,7 @@ $(document).ready(function() {
   firebase.initializeApp(config);
   var database = firebase.database();
   var usersReference = database.ref("users");
-  
+
   const emailtxt = document.getElementById("email");
   const passwordtxt = document.getElementById("password");
   const institutiontxt = document.getElementById("institution");
@@ -34,7 +34,7 @@ $(document).ready(function() {
       avatar: avatar
     });
     console.log(user, "You are signed up!!!");
-    window.location="new_pos.html";
+    window.location="main.html";
   }
 
   //registration event listener
