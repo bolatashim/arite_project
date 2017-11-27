@@ -13,7 +13,7 @@ var emotionsdata = [[], [], [], [], [], [], []]; //these are the indices for pre
 var TRANSPARENCY_DELAY = 500;
 var TEXT_COLOR = "red";
 var w = window.innerWidth*0.8,
-    h = window.innerHeight*0.8,
+    h = window.innerHeight*1,
     margin = { top: 40, right: 20, bottom: 20, left: 40 }
 var svg ;
 var dataset = []

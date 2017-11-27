@@ -12,7 +12,6 @@
 
     <style type="text/css">
 
-
       body {
         margin: 0;
         font-family: sans-serif;
@@ -53,14 +52,32 @@
         margin: 30px
       }
 
+      ul li a {
+        color: white !important;
+      }
+
 
     </style>
 
   </head>
   <body>
+  <nav style="float: left; margin-left: -48px; width: 106%;">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo" style="margin-left: 40px">Logo</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 40px;">
+        <li><a href="signup.html" style="font-size: 18px;">SIGN UP</a></li>
+        <li><a href="login.html" style="font-size: 18px;">LOGIN</a></li>
+        <a href="instructions.html" class="waves-effect waves-light btn">Need Help?</a>
+      </ul>
+    </div>
+  </nav>
+
+
+
     <!-- <img src="emotion_graph_800_600.png" alt="emotion map" style="z-index: -40000"> -->
   <div class="row">
   <div class="col s12 main_div">
+
 
   <div id="modal1" class="modal">
       <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
@@ -104,11 +121,11 @@
     </div>
 
 
-  <div class="col s10">
+  <div class="col s12">
     <div class="emotion_graph">
       <div class="graph_image"></div>
     </div>
-    <div style=" margin: 0 auto; width: 80%">
+  <div id="pag_id" style=" margin-top: -220px; margin-bottom: 0px; width: 100%; text-align: center;">
      <ul class="pagination">
        <br>
        <br>
@@ -125,12 +142,19 @@
       </ul>
     </div>
   </div>
-  <div class="col s2">
+  <!-- <div class="col s2">
 
     <div>
-      <a href="instructions.html" class="waves-effect waves-light btn" style="align-content: center; margin: 20px auto;  width: 100%">Need help?</a>
+      <a href="instructions.html" class="waves-effect waves-light btn" style="align-content: center; margin: 20px auto;  width: 100%">Connections</a>
     </div>
   </div>
+ -->
+    
+
+
+
+
+
   </div>
       <div class="fixed-action-btn click-to-toggle" style="margin-bottom: 70px;margin-right: 60px; ">
       <a class="btn-floating btn-thehuge">
@@ -247,6 +271,9 @@
         $("#avatarmodal").modal("close");
       }
 
+      // $("#pag_id").style("margin-left", (window.innerWidth/2 -  + "px"))
+      // console.log("width", $(".pagination").width());
+      // $("html").style("height", "500px")
     </script>
   </body>
 </html>
