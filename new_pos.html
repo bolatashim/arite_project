@@ -17,7 +17,7 @@
         margin: 0;
         font-family: sans-serif;
         font-size: 11px;
-        background-image: url("background/tif_gradient_8axis-01-01.png");
+        background-image: url("background/tif_2-02.png");
         background-repeat: no-repeat;
         background-size: cover;
         /*min-width: 800px;*/
@@ -108,8 +108,11 @@
     <div class="emotion_graph">
       <div class="graph_image"></div>
     </div>
-    <div style=" margin: 0 auto; width: 60%">
+    <div style=" margin: 0 auto; width: 80%">
      <ul class="pagination">
+       <br>
+       <br>
+       <br>
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
         <li class="waves-effect" id="sixd"><a href="#!" onclick="selectPagIdx(6)"></a></li>
         <li class="waves-effect" id="fived"><a href="#!" onclick="selectPagIdx(5)"></a></li>
@@ -119,11 +122,11 @@
         <li class="waves-effect" id="oned"><a href="#!" onclick="selectPagIdx(1)"></a></li>
         <li class="active" id="zerod"><a href="#!" onclick="selectPagIdx(0)"">TODAY</a></li>
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-      </ul>    
+      </ul>
     </div>
-  </div>      
+  </div>
   <div class="col s2">
-    
+
     <div>
       <a href="instructions.html" class="waves-effect waves-light btn" style="align-content: center; margin: 20px auto;  width: 100%">Need help?</a>
     </div>
@@ -167,7 +170,7 @@
 
       function feelingSubmit() {
 
-        
+
         var thereason = $("#reason").val();
 
         $("body").css('cursor','pointer');
@@ -180,7 +183,7 @@
           $("#message").text("");
           $("#modal1").modal("close");
           console.log("The feeling is: ", "The reason is:", thereason);
-          
+
           var newData = {
             x: data_x,  // Takes the pixel number to convert to number
             y: data_y,
@@ -219,13 +222,13 @@
         var theavatar = "avatar/" +  avatar_index + "avatar_cur.png"
         $("body").css('cursor','url('+ theavatar + '),auto');
         stupidvar = 0;
-        if (avatar_index) { 
+        if (avatar_index) {
           //do nothing
           alert("Locate your feeling on the graph")
         }else{
           alert("Please, try again")
         }
-        
+
       }
 
       $('input[name="avatar_switch"]').on('change', function() {
