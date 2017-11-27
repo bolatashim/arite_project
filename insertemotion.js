@@ -1,4 +1,4 @@
-var stupidvar = 1;
+  var stupidvar = 1;
 var feeling = "Happy";
 var reason = "Arite is such an awesome interface (づ｡◕‿‿◕｡)づ ";
 var avatar_index = 0;
@@ -121,7 +121,7 @@ function insertNewConnection(start_user, end_user) {
       
       if (user.val().email == start_user) {
         
-        database.ref("users/" + user.key + "/conections").push({
+        database.ref("users/" + user.key + "/connections").push({
           email: end_user,
           other: "test"
         });
