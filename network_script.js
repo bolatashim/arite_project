@@ -62,6 +62,7 @@ async function async_draw() {
 	while (true) {
     await sleep(2000);
 		if (nodes_edges_completed) {
+      $('p').remove();
 			draw_graph(outp);
 			break;
 		}

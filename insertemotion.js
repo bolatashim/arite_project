@@ -226,6 +226,7 @@ $(document).ready(function() {
             .data(emotionsdata[current_dayidx])
             .transition()
             .duration(TRANSPARENCY_DELAY)
+            .attr("visibility","visible")  
             .attr("opacity",function(d,i){
               //console.log(distance(newData,d))
               //console.log(" " + distance(newData,d) + " $ " + 500)
