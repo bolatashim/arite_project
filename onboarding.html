@@ -14,43 +14,17 @@
 
 
       body {
-        margin: 0;
-        font-family: sans-serif;
-        font-size: 11px;
-        background-image: url("background/onboarding.png");
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-color: #0f0e3d;
+        /*background-image: url("background/onboarding.png");*/
+        
+        /*background-repeat: no-repeat;*/
+        /*background-size: cover;*/
+
+        /*background-size: cover;*/
         /*min-width: 800px;*/
-        /*min-height: 600px;*/
-        height: 100%;
-      }
+        /*min-height: 600px;*
 
-      .axis path, .axis line {
-        fill: none;
-        stroke: black;
-        shape-rendering: crispEdges;  /* Round any decimal pixels so it'll render nicely */
-      }
-
-      .btn-thehuge {
-        height: 100px;
-        width: 100px;
-        line-height: 150px;
-        padding: 0 0 rem;
-      }
-
-      .dropAvatarClass {
-
-        background-color: blue;
-        cursor: url(0avatar.gif), auto;
-
-      }
-
-      body {
-        margin-left: 50px;
-        margin-right: 50px;
-      }
-      .main_div {
-        margin: 30px
+        
       }
 
 
@@ -58,20 +32,23 @@
 
   </head>
   <body>
-    <!-- <img src="emotion_graph_800_600.png" alt="emotion map" style="z-index: -40000"> -->
-  <div class="row">
-  <div class="col s12 main_div">
-
-  </div>
-  </div>
-
+    <div style="margin: 0 auto; width:70%">
+      <img id="imagebg" src="background/onboarding.png" height="700px" width="1000px" align="middle">  
     </div>
-  </div>
+    <div style="text-align: center; margin-top: -75px">
+      <a href="main.html" class="waves-effect waves-light btn" style="height: 70px; line-height: 70px; width: 320px; font-size: 34px; font-family: sans-serif; border-radius: 0px;">Get Started</a>  
+    </div>
+    
+    
+
     <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="script/jquery.query-object.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <!-- Begin Javascript -->
 
+    <script type="text/javascript">
+      $("#imagebg").style("width")
+
+    </script>
   </body>
 </html>
