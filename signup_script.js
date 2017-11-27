@@ -34,6 +34,7 @@ $(document).ready(function() {
       avatar: avatar
     });
     console.log(user, "You are signed up!!!");
+    window.location="new_pos.html";
   }
 
   //registration event listener
