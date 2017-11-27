@@ -35,23 +35,34 @@ function retrieveConnections() {
 
 
 function organizeNodesEdges() {
-	for (var email in connections_dict) {    
+	for (var email in connections_dict) {
     	var node = {"id": email, "avatar": connections_dict[email]["avatar"]}
     	outp["nodes"].push(node);
     	for (var edge in connections_dict[email]) {
     		if (edge != "empty" && edge != "avatar") {
-    			var link = {"source": email, "target": edge,"weight": 1}
+    			var link = {"source": email, "target": edge,"value": 1}
     			outp["links"].push(link);
     		}
     	}
 	}
 }
-
+var nodes_edges_completed = 0;
 async function arrangeOutput() {
 	while (true) {
     await sleep(2000);
 		if (expected_length == Object.keys(connections_dict).length) {
 			organizeNodesEdges();
+
+			break;
+		}
+	}
+  nodes_edges_completed = 1;
+}
+async function async_draw() {
+	while (true) {
+    await sleep(2000);
+		if (nodes_edges_completed) {
+			draw_graph(outp);
 			break;
 		}
 	}
@@ -59,45 +70,33 @@ async function arrangeOutput() {
 
 function together() {
   retrieveConnections();
-  arrangeOutput();  
+  arrangeOutput();
 }
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
-
-
-//code starts here
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-
-var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
-
-d3.json("miserables.json", function(error, graph) {
-  if (error) throw error;
+//d3.json("miserables.json", draw_graph);
+//draw_graph(outp)
+function draw_graph( graph) {
+  //if (error) throw error;
 
   var link = svg.append("g")
       .attr("class", "links")
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+      .attr("stroke-width", function(d) { return d.value*5; });
 
   var node = svg.append("g")
       .attr("class", "nodes")
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", 5)
-      .attr("fill", function(d) { return color(d.group); })
+      .attr("r", 15)
+      .attr("fill", function(d) { return color(d.avatar); })
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
@@ -124,7 +123,7 @@ d3.json("miserables.json", function(error, graph) {
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
   }
-});
+}
 //functions from M bostock
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -143,3 +142,17 @@ function dragended(d) {
   d.fy = null;
 }
 
+//code starts here
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+together();
+async_draw();
