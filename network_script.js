@@ -88,14 +88,14 @@ function draw_graph( graph) {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", function(d) { return d.value; });
+      .attr("stroke-width", function(d) { return d.value*5; });
 
   var node = svg.append("g")
       .attr("class", "nodes")
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", 5)
+      .attr("r", 15)
       .attr("fill", function(d) { return color(d.avatar); })
       .call(d3.drag()
           .on("start", dragstarted)
