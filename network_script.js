@@ -9,8 +9,7 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 var usersReference = database.ref("users");
-
-
+var expected_length = 99999;
 var connections_dict = {};
 var outp = {"nodes": [], "links": []};
 
@@ -18,6 +17,8 @@ var outp = {"nodes": [], "links": []};
 /* if connections_dict[email]["empty"] is 1, it means this node has no outward edges */
 function retrieveConnections() {
   	usersReference.once("value", function(snap){
+		expected_length = snap.numChildren();
+		console.log("expected ", expected_length, "children");
 		snap.forEach(function(user){
 			connections_dict[user.val().email] = {"empty": 1};
 			connections_dict[user.val().email]["avatar"] = user.val().avatar;
@@ -34,7 +35,6 @@ function retrieveConnections() {
 
 
 function organizeNodesEdges() {
-	
 	for (var email in connections_dict) {    
     	var node = {"id": email, "avatar": connections_dict[email]["avatar"]}
     	outp["nodes"].push(node);
@@ -46,6 +46,26 @@ function organizeNodesEdges() {
     	}
 	}
 }
+
+function arrangeOutput() {
+	console.log("no longer waiting");
+	while (true) {
+		// console.log("expected: ", )
+		// setTimeout(function(){ console.log("waiting"); }, 1);
+
+		if (expected_length == Object.keys(connections_dict)) {
+			organizeNodesEdges();
+			console.log("no longer waiting");
+			console.log(outp);
+			break;
+		}
+	}
+}
+
+retrieveConnections();
+arrangeOutput();
+
+console.log("hello");
 
 
 
