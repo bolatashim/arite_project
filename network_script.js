@@ -47,25 +47,27 @@ function organizeNodesEdges() {
 	}
 }
 
-function arrangeOutput() {
-	console.log("no longer waiting");
+async function arrangeOutput() {
 	while (true) {
-		// console.log("expected: ", )
-		// setTimeout(function(){ console.log("waiting"); }, 1);
-
-		if (expected_length == Object.keys(connections_dict)) {
+    await sleep(2000);
+		if (expected_length == Object.keys(connections_dict).length) {
 			organizeNodesEdges();
-			console.log("no longer waiting");
-			console.log(outp);
 			break;
 		}
 	}
 }
 
-// retrieveConnections();
-// arrangeOutput();
+function together() {
+  retrieveConnections();
+  arrangeOutput();  
+}
 
-console.log("hello");
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
 
 //code starts here
 var svg = d3.select("svg"),
@@ -140,3 +142,4 @@ function dragended(d) {
   d.fx = null;
   d.fy = null;
 }
+
