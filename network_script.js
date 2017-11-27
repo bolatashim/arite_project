@@ -147,7 +147,11 @@ var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+//var color = d3.scaleOrdinal();
+function color(index){
+  var ar = ["#F0D65F","#E7644F","#EF884B","#41AB69","#6CC1D7"];
+  return ar[index];
+}
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
