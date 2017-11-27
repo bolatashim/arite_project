@@ -4,7 +4,7 @@
 
   <head>
     <!-- Load D3 from site -->
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- CSS (Styling) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
@@ -51,16 +51,28 @@
         margin: 30px
       }
 
+      .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+      }
+
+      .nodes circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+      }
+
 
     </style>
 
   </head>
   <body>
     <!-- <img src="emotion_graph_800_600.png" alt="emotion map" style="z-index: -40000"> -->
+
+  <svg width="960" height="600"></svg>
   <div class="col s12 main_div">
     <div class="col s10">
       <h5 id="emails_connections">Here i am </h5>
-    </div>      
+    </div>
     <div class="col s2">
   </div>
   </div>
