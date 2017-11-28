@@ -34,6 +34,7 @@ var usertofeel = "bolat@kaist.ac.kr"
 var data_x = 0;
 var data_y = 0;
 var mailtoavatar = {};
+var av_toname = ["Anglerfish", "Crab", "Squid", "Starfish", "Whale"]
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveOneWeekData() {
   var prevdates = [];
@@ -94,8 +95,16 @@ function handleMouseAvatarClick(d, i) {
 
   $('.modal').modal();
   $("#avatarmodal").modal("open");
+  $("#expl_text").text(av_toname[clicked_user] + " felt this way because ...");
   $("#feelingreport").text(d.reason);
   usertofeel = d.user_email;
+}
+
+function restoreValsClose() {
+  $("#avatarmodal").modal("close");
+  $("#expl_text").text("User felt this way because ...");
+  $("#feelingreport").text("");
+  $(".canfeelbutton").css("display", "");
 }
 
 function tofeelUser() {
@@ -104,7 +113,10 @@ function tofeelUser() {
   if (user) {
     console.log("inserting a connection between " + user.email + " and " + usertofeel);
     insertNewConnection(user.email, usertofeel)
-
+    $("#expl_text").text("");
+    $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user] + " (^ - ^) ");
+    $(".canfeelbutton").css("display", "none");
+    setTimeout(function(){ restoreValsClose(); }, 3000);
   } else {
 
     alert("Please, sign in order to express your sympathy...")

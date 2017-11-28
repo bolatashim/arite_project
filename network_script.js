@@ -96,7 +96,7 @@ function draw_graph( graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", 15)
+      .attr("r", 8)
       .attr("fill", function(d) { return color(d.avatar); })
       .call(d3.drag()
           .on("start", dragstarted)
