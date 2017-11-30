@@ -18,13 +18,14 @@ var outp = {"nodes": [], "links": []};
 function retrieveConnections() {
   	usersReference.once("value", function(snap){
 		expected_length = snap.numChildren();
-		console.log("expected ", expected_length, "children");
+		// console.log("expected ", expected_length, "children");
 		snap.forEach(function(user){
 			connections_dict[user.val().email] = {"empty": 1};
 			connections_dict[user.val().email]["avatar"] = user.val().avatar;
-    		database.ref("users/" + user.key + "/conections").once("value",  function(connection) { //need to change to connections after completion
-      			connection.forEach(function(email) {
-        			console.log(user.val().email, " : ", email.val().email);
+    		database.ref("users/" + user.key + "/connections").once("value",  function(connection) { //need to change to connections after completion
+      			  
+              connection.forEach(function(email) {
+        			// console.log(user.val().email, " : ", email.val().email);
         			connections_dict[user.val().email]["empty"] = 0;
         			connections_dict[user.val().email][email.val().email] = 1;
     			});
