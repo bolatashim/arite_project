@@ -46,6 +46,8 @@ function organizeNodesEdges() {
     		}
     	}
 	}
+  $("#totnode").text(outp["nodes"].length)
+  $("#totcon").text(outp["links"].length)
 }
 var nodes_edges_completed = 0;
 async function arrangeOutput() {

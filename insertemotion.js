@@ -97,6 +97,7 @@ function handleMouseAvatarClick(d, i) {
   $("#avatarmodal").modal("open");
   $("#expl_text").text(av_toname[clicked_user] + " felt this way because ...");
   $("#feelingreport").text(d.reason);
+  $("#feelingreport_emoticon").text("");
   usertofeel = d.user_email;
 }
 
@@ -104,6 +105,7 @@ function restoreValsClose() {
   $("#avatarmodal").modal("close");
   $("#expl_text").text("User felt this way because ...");
   $("#feelingreport").text("");
+  $("#feelingreport_emoticon").text("");
   $(".canfeelbutton").css("display", "");
 }
 
@@ -114,7 +116,8 @@ function tofeelUser() {
     console.log("inserting a connection between " + user.email + " and " + usertofeel);
     insertNewConnection(user.email, usertofeel)
     $("#expl_text").text("");
-    $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user] + " (^ - ^) ");
+    $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user]);
+    $("#feelingreport_emoticon").text(" (^ - ^) ");
     $(".canfeelbutton").css("display", "none");
     setTimeout(function(){ restoreValsClose(); }, 3000);
   } else {
