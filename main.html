@@ -92,7 +92,7 @@
         <li><a href="signup.html" style="font-size: 14px;">Sign Up</a></li>
         <li><a href="login.html" style="font-size: 14px;">Login</a></li>
         <li><a href="about.html" style="font-size: 14px;">About Moody</a></li>
-        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdkqcc_sHhJTqGcjvH1OoFuSSw6MxLN1yxorVxPp7-QpGbpig/viewform" target="_blank style="font-size: 14px;">Contact Us</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdkqcc_sHhJTqGcjvH1OoFuSSw6MxLN1yxorVxPp7-QpGbpig/viewform" target="_blank" style="font-size: 14px;">Contact Us</a></li>
       <!--  <a href="onboarding.html" class="waves-effect waves-light btn">Need Help?</a> -->
       </ul>
     </div>
@@ -194,6 +194,12 @@
     <!-- Begin Javascript -->
     <script src="insertemotion.js"></script>
     <script type="text/javascript">
+
+    $('html, body').css({
+    overflow: 'hidden',
+    height: '100%'
+});
+
       $("body").css('cursor','pointer');
       function activatemodal() {
         $('.modal').modal();
@@ -296,7 +302,6 @@
         $("#avatarmodal").modal("close");
       }
 
-      // $("#pag_id").style("margin-left", (window.innerWidth/2 -  + "px"))
       // console.log("width", $(".pagination").width());
       // $("html").style("height", "500px")
     </script>
