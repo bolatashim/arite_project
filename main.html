@@ -195,10 +195,13 @@
     <script src="insertemotion.js"></script>
     <script type="text/javascript">
 
-    $('html, body').css({
-    overflow: 'hidden',
-    height: '100%'
-});
+    var $window = $(window);
+
+    $window.on("mousewheel DOMMouseScroll", onMouseWheel);
+
+    function onMouseWheel(e) {
+        e.preventDefault();
+    }
 
       $("body").css('cursor','pointer');
       function activatemodal() {
