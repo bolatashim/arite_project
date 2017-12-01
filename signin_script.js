@@ -19,7 +19,10 @@ $(document).ready(function() {
 
   //registration event listener
   loginbtn.addEventListener("click", e => {
-    const email = emailtxt.value;
+    var email = emailtxt.value;
+    if (email.indexOf("@") == -1) {
+      email = email + "@arite.kaist";
+    }
     const pass = passwordtxt.value;
     const auth = firebase.auth();
     const promise = auth.signInWithEmailAndPassword(email, pass);

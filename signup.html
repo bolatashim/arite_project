@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 
 <html>
 <head>
@@ -18,6 +18,102 @@
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
         <label><b>Password</b></label>
         <input type="password" placeholder="Enter Password longer than 8 characters" name="psw" id="password" required>
+        </form>
+
+
+
+        <form id="ages" onSubmit="return false;">
+              <label><b>AGE : </b></label>
+              <input name="age" type="number" id="age" placeholder="20" />
+        </form>
+
+        <form id="genders" onSubmit="return false;">
+              <label><b>GENDER : </b></label>
+              <input name="gender_group" type="radio" id="man" checked="true" value="Man" />
+              <label for="man">Man</label>
+              <input name="gender_group" type="radio" id="woman" value="Woman" />
+              <label for="woman">Woman</label>
+              <input name="gender_group" type="radio" id="other_gen" value="Other" />
+              <label for="other_gen">Other</label>
+        </form>
+
+        </br>
+
+
+        <form id="occupations" onSubmit="return false;">
+          <label><b>OCCUPATION : </b></label>
+          <input name="occupation_group" type="radio" id="undergrad" checked="true" value="Undergrad" />
+          <label for="undergrad">Undergrad</label>
+          <input name="occupation_group" type="radio" id="grad" value="Graduate" />
+          <label for="grad">Grad</label>
+          <input name="occupation_group" type="radio" id="prof" value="Professor" />
+          <label for="prof">Prof</label>
+          <input name="occupation_group" type="radio" id="worker" value="Worker" />
+          <label for="worker">Staff</label>
+          <input name="occupation_group" type="radio" id="other_occ" value="Other" />
+          <label for="other_occ">Other</label>
+        </form>
+        <br>
+        <form id="avatars" onSubmit="return false;">
+          <label><b>PICK YOUR AVATAR : </b></label><br><br>
+
+          <input name="avatar_group" type="radio" id="anglerfish" checked="true" value="anglerfish" />
+          <label for="anglerfish"><img src="avatar/0avatar_cur.png" width= "50" height = "50" alt="anglerfish" style="margin-right: 20px; margin-left: -10px"></label>
+
+          <input name="avatar_group" type="radio" id="crab" checked="true" value="crab" />
+          <label for="crab"><img src="avatar/1avatar_cur.png" width= "50" height = "50" alt="crab" style="margin-right: 20px; margin-left: -10px"></label>
+
+          <input name="avatar_group" type="radio" id="squid" checked="true" value="squid" />
+          <label for="squid"><img src="avatar/2avatar_cur.png" width= "50" height = "50" alt="squid" style="margin-right: 20px; margin-left: -10px"></label>
+
+          <input name="avatar_group" type="radio" id="starfish" checked="true" value="starfish" />
+          <label for="starfish"><img src="avatar/3avatar_cur.png" width= "50" height = "50" alt="starfish" style="margin-right: 20px; margin-left: -10px"></label>
+
+          <input name="avatar_group" type="radio" id="whale" checked="true" value="whale" />
+          <label for="whale"><img src="avatar/4avatar_cur.png" width= "50" height = "50" alt="whale" style="margin-right: 20px; margin-left: -10px"></label>
+
+        </form>
+
+        <br>
+        <div class="right-align">
+          <a href="./login.html" style="float: left; margin-top: 10px" ><u>Already have an account?</u></a>
+          <button type="submit" id="registerbtn" class="btn" >Let's Go</button>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="signup_script.js"></script>
+  </body>
+</head>
+</html>
+ -->
+
+
+
+ <!DOCTYPE html>
+
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+  <body style="background-color: #0F0E3D">
+    <br>
+    <br>
+      <div class="container" style="width: 40%; background-color: white; box-shadow: 5px 5px 5px #888888;padding: 10px 30px 20px 30px">
+        <div class="header-content-inner center-align">
+        <h4>Welcome to A'rite.</h4>
+        <h4>Create your account to join!</h4><br>
+        </div>
+        <form onSubmit="return false;">
+        <label><b>Nickname or Email</b></label>
+        <input type="text" placeholder="Enter Your Nickname or Email" name="email" id="email" required>
+        <label><b>Password</b></label>
+        <input type="password" placeholder="Enter a password that is 6 characters or more" name="psw" id="password" required>
         </form>
 
 

@@ -39,7 +39,10 @@ $(document).ready(function() {
 
   //registration event listener
   registerbtn.addEventListener("click", e => {
-    const email = emailtxt.value;
+    var email = emailtxt.value
+    if (email.indexOf("@") == -1) {
+      email = email + "@arite.kaist";  
+    }
     const password = passwordtxt.value;
     const auth = firebase.auth();
 
