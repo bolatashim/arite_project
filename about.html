@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- How to create Mouse Events for D3 -->
+<html>
+
+  <head>
+    <!-- Load D3 from site -->
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- CSS (Styling) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+
+    <style type="text/css">
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 11px;
+        /*background-image: url("background/tif_gradient_8axis-01-01.png");*/
+        background-repeat: no-repeat;
+        background-color: #0F0e3d;
+        background-size: cover;
+        /*min-width: 800px;*/
+        /*min-height: 600px;*/
+        height: 100%;
+      }
+
+      .axis path, .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;  /* Round any decimal pixels so it'll render nicely */
+      }
+
+      .btn-thehuge {
+        height: 100px;
+        width: 100px;
+        line-height: 150px;
+        padding: 0 0 rem;
+      }
+
+      .dropAvatarClass {
+
+        background-color: blue;
+        cursor: url(0avatar.gif), auto;
+
+      }
+
+      .main_div {
+        margin: 30px
+      }
+
+      .links line {
+        stroke: #999;
+        stroke-opacity: 0.6;
+      }
+
+      .nodes circle {
+        stroke: #fff;
+        stroke-width: 1.5px;
+      }
+      nav {
+        background-color: #323284;
+        height: 56px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <!-- <img src="emotion_graph_800_600.png" alt="emotion map" style="z-index: -40000"> -->
+
+    <nav style="float: left; width: 100%;">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo" style="margin-left: 40px">
+    <!-- Switch -->
+  <!--       <div class="switch">
+          <label>
+
+            <input type="checkbox" style="height: 50px">
+            <span class="lever" style="width: 60px; height: 20px;"></span>
+
+          </label>
+        </div> -->
+        Moody
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-right: 40px;">
+          <a href="main.html" class="waves-effect waves-light btn">Daily Logs</a>
+          <li><a href="signup.html" style="font-size: 14px;">Sign Up</a></li>
+          <li><a href="login.html" style="font-size: 14px;">Login</a></li>
+          <li><a href="about.html" style="font-size: 14px;">About Moody</a></li>
+          <li><a href="onboarding.html" style="font-size: 14px;">Need help?</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+    <br>
+    <br>
+    <div class="row" style='padding-top:100px; padding-left:100px; padding-right : 100px; padding-bottom : 100px'>
+
+      <div class="col s12" style='font-family : bebas neue;' >
+        <h1 style="margin: 20px; color: white">About Moody</h1></div>
+
+      <div class="col s12" style='font-family : bebas neue; ' >
+        <h4 style="margin: 20px; color: white">
+          <i>"Somebody out there gets you."</i></h4></div>
+     <br><br><br><br>
+     <div class="col s12" style='font-family : avenir;'>
+       <h5 style="margin: 20px; color: white">
+          Moody helps you be aware of your feelings and empathize with other users.<br>
+          There are some facts that make Moody special.<br><br></h5></div>
+      <div class="col s12" style='font-family : bebas neue; ' >
+        <h3 style="margin: 20px; color: white">
+          1. The Map</h3>
+
+          <img src="background/Map_example.png" alt="Map of Emotions" style="width:400px; padding-left:100px">
+        </div>
+
+
+
+      <div class="col s12" style='font-family : avenir;'>
+        <h5 style="margin: 20px; color: white">
+           <p>Our 2D Map of emotions is based on the Dr.James A Russell's <a href = "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.320.6245&rep=rep1&type=pdf"> circumplex model </a>of emotions.
+             His model, which is cited broadly in many psychological and affective states research, allows for a 2D distribution mapping of emotions. <br></p>
+           <p>
+             In most SNS where you share emotions, your interaction with content decides your next feed. That means interacting with <i>sad</i> content will narrow down your feed to sad content. This could be problematic,
+             because you might get encaged in your own <a href = "https://www.ted.com/talks/eli_pariser_beware_online_filter_bubbles">filter bubble</a>. <br>
+           </p>
+           <p>Instead, we wanted to give <b>you</b> the power to choose what content you can see. <br>
+             You can navigate through contents of emotions you're interested in, and also see how the community you're in felt over time! (How cool!)<br>
+           </p>
+        </h5></div>
+        <br>
+        <br>
+        <div class="col s12" style='font-family : bebas neue; ' >
+          <h3 style="margin: 20px; color: white">
+            2. The Radar</h3>
+            <img src="background/radar_character.png" alt="Radar" style="width:400px; padding-left:100px">
+          </div>
+
+        <div class="col s12" style='font-family : avenir;'>
+          <h5 style="margin: 20px; color: white">
+             <p>Sometimes you feel you're the only person in the world feeling a certain way.
+               Searching for true feelings and empathy is hard.</p>
+              <p>We felt that searching for empathy is like radaring for near objects in <a href = "https://www.google.co.kr/search?q=deep+ocean&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjSr6OblejXAhWBoZQKHT81BSUQ_AUICigB&biw=720&bih=780">deep ocean</a>.
+                There may be someone who understands you, or not. Either way, you have to scavange through the dark ocean with radar.<br>
+                That's why your avatars are a cute collection of deep sea creatures : Angy (the anglerfish), Crabby (the spider-crab), Whay(the whale), Timothy Parker (the starfish), and Squee (the squid).<br>
+                Have fun scavenging for people who understand you! We wish you luck. :)
+              </p>
+          </h5></div>
+          <br>
+          <br>
+
+          <div class="col s12" style='font-family : bebas neue; ' >
+            <h3 style="margin: 20px; color: white">
+              3. The Tie</h3>
+              <img src="background/tie.png" alt="Tie" style="width:400px; padding-left:100px">
+            </div>
+
+          <div class="col s12" style='font-family : avenir;'>
+            <h5 style="margin: 20px; color: white">
+               <p>Do you ever get confused when someone "liked" when you posted about the time your cat died? We did.<br>
+               Instead of the usual ways of likes and commenting, we wanted users to 'empathize' with each other.
+               By pressing our "I feel you" button, you can connect with other users that shows in our <a href="networks.html">tie graph</a>. <br>
+               We want to make a community where all users are understood by another user in some way, making a map of understanding.
+             </p>
+            </h5></div>
+
+            <div class="col s12" style='font-family : avenir;'>
+              <h5 style="margin: 20px; color: white">
+                <p>Lastly, please tell us what you thought about Moody via <a href = "https://docs.google.com/forms/d/e/1FAIpQLSdkqcc_sHhJTqGcjvH1OoFuSSw6MxLN1yxorVxPp7-QpGbpig/viewform"> here</a>. We appreciate your feedback! :)
+               </p>
+               <p> With care and love -- Bolat, Jiyoun, Kamil, Thao </p>
+              </h5></div>
+
+  <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="script/jquery.query-object.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script type="text/javascript" src="network_script.js"></script>
+  </body>
+</html>
