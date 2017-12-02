@@ -23,7 +23,7 @@ function retrieveConnections() {
 			connections_dict[user.val().email] = {"empty": 1};
 			connections_dict[user.val().email]["avatar"] = user.val().avatar;
     		database.ref("users/" + user.key + "/connections").once("value",  function(connection) { //need to change to connections after completion
-      			  
+
               connection.forEach(function(email) {
         			// console.log(user.val().email, " : ", email.val().email);
         			connections_dict[user.val().email]["empty"] = 0;
@@ -101,6 +101,8 @@ function draw_graph( graph) {
     .enter().append("circle")
       .attr("r", 8)
       .attr("fill", function(d) { return color(d.avatar); })
+      .on("mouseover", mouseover_node)
+      .on("mouseout", mouseout_node)
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
@@ -127,6 +129,30 @@ function draw_graph( graph) {
         .attr("cx", function(d) { return d.x; })
         .attr("cy", function(d) { return d.y; });
   }
+}
+//mouse in
+function mouseover_node(d, i) {  // Add interactivity
+
+  // Specify where to put label of text
+  svg.append("text").attrs({
+     id: "t" + d.id,  // Create an id for text so we can select it later for removing on mouseout
+      x: function() { return d.x - 30; },
+      y: function() { return d.y - 15; },
+}).styles({
+    fill: "black",
+    "font-weight": "bold"
+
+}).text(function() {
+    return "User: " + d.id.split("@",1);  // Value of the text
+  });
+}
+//mouse out
+function mouseout_node(d, i) {
+      // Use D3 to select element, change color back to normal
+      // Select text by id and then remove
+      //tc@gmail.com
+      //d3.selectAll("#tc@gmail.com").remove();  // Remove text location
+      d3.selectAll("text").remove();  // Remove text location
 }
 //functions from M bostock
 function dragstarted(d) {
