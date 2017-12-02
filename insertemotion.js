@@ -117,7 +117,7 @@ function tofeelUser() {
     insertNewConnection(user.email, usertofeel)
     $("#expl_text").text("");
     $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user]);
-    $("#feelingreport_emoticon").text(" (^ - ^) ");
+    $("#feelingreport_emoticon").text("See the results in Connections!  (^ - ^) ");
     $(".canfeelbutton").css("display", "none");
     setTimeout(function(){ restoreValsClose(); }, 3000);
   } else {
@@ -241,7 +241,7 @@ $(document).ready(function() {
             .data(emotionsdata[current_dayidx])
             .transition()
             .duration(TRANSPARENCY_DELAY)
-            .attr("visibility","visible")  
+            .attr("visibility","visible")
             .attr("opacity",function(d,i){
               //console.log(distance(newData,d))
               //console.log(" " + distance(newData,d) + " $ " + 500)
