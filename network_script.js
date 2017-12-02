@@ -12,7 +12,7 @@ var usersReference = database.ref("users");
 var expected_length = 99999;
 var connections_dict = {};
 var outp = {"nodes": [], "links": []};
-
+const CIRCLE_RADIUS = 8
 /* stores all of the edges in the connections_dict */
 /* if connections_dict[email]["empty"] is 1, it means this node has no outward edges */
 function retrieveConnections() {
@@ -99,14 +99,15 @@ function draw_graph( graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", 8)
+      .attr("r", CIRCLE_RADIUS)
       .attr("fill", function(d) { return color(d.avatar); })
       .on("mouseover", mouseover_node)
       .on("mouseout", mouseout_node)
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended));
+          .on("end", dragended)
+          );
 
   node.append("title")
       .text(function(d) { return d.id; });
@@ -126,8 +127,8 @@ function draw_graph( graph) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+        .attr("cx",function(d) { return d.x = Math.max(CIRCLE_RADIUS, Math.min(width - CIRCLE_RADIUS, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(CIRCLE_RADIUS, Math.min(height - CIRCLE_RADIUS, d.y)); });
   }
 }
 //mouse in
@@ -167,7 +168,7 @@ function dragged(d) {
 }
 
 function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
+  if (!d3.event.active) simulation.alphaTarget(0.3);
   d.fx = null;
   d.fy = null;
 }
@@ -189,4 +190,5 @@ var simulation = d3.forceSimulation()
     .force("center", d3.forceCenter(width / 2, height / 2));
 
 together();
+
 async_draw();
