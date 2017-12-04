@@ -35,6 +35,7 @@ var data_x = 0;
 var data_y = 0;
 var mailtoavatar = {};
 var av_toname = ["Anglerfish", "Crab", "Squid", "Starfish", "Whale"]
+var daykey;
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveOneWeekData() {
   var prevdates = [];
@@ -60,7 +61,7 @@ function retrieveOneWeekData() {
             }
 
             // console.log(emotionsdata, day_index, "asddddasdjaeifjaefjaepofja")
-
+            // console.log("HSHSHSHSHSSH ", finput.key);
             if (!(day_index == -1)) {
               emotionsdata[day_index].push({
                 x: finput.val().xpos,
@@ -68,7 +69,8 @@ function retrieveOneWeekData() {
                 avatar : user.val().avatar,
                 feeling: finput.val().feeling,
                 reason: finput.val().reason,
-                user_email: user.val().email
+                user_email: user.val().email,
+                day_key: finput.key
               });
             }
         });
@@ -99,6 +101,7 @@ function handleMouseAvatarClick(d, i) {
   $("#feelingreport").text(d.reason);
   $("#feelingreport_emoticon").text("");
   usertofeel = d.user_email;
+  daykey = d.day_key;
 }
 
 function restoreValsClose() {
@@ -129,6 +132,80 @@ function tofeelUser() {
 }
 
 
+// function toreportUser() {
+//   var user = firebase.auth().currentUser;
+
+//   if (user) {
+//     console.log("reporting by " + user.email + " of " + usertofeel);
+//     insertNewReport(user.email, usertofeel, 1)
+//     $("#rep_but").css("display", "none");
+//     $("#unrep_but").css("display", "block");
+//     // $("#expl_text").text("");
+//     // $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user]);
+//     // $("#feelingreport_emoticon").text("See the results in Connections!  (^ - ^) ");
+//     // $(".canfeelbutton").css("display", "none");
+//     setTimeout(function(){ restoreValsClose(); }, 3000);
+//   } else {
+
+//     alert("Please, sign in order to report ...")
+//     window.location="login.html"
+
+//   }
+// }
+
+// function toUnreportUser() {
+//   var user = firebase.auth().currentUser;
+
+//   if (user) {
+//     console.log("reporting by " + user.email + " of " + usertofeel);
+//     insertNewReport(user.email, usertofeel, 0)
+//     $("#rep_but").css("display", "block");
+//     $("#unrep_but").css("display", "none");
+//     // $("#expl_text").text("");
+//     // $("#feelingreport").text("Now you are connected to " + av_toname[clicked_user]);
+//     // $("#feelingreport_emoticon").text("See the results in Connections!  (^ - ^) ");
+//     // $(".canfeelbutton").css("display", "none");
+//     setTimeout(function(){ restoreValsClose(); }, 3000);
+//   } else {
+
+//     alert("Please, sign in order to report ...")
+//     window.location="login.html"
+
+//   }
+// }
+
+
+// function insertNewReport(start_user, end_user, report) {
+//   usersReference.once("value", function(snap){
+//     snap.forEach(function(user) {
+//         database.ref("users/" + user.key + "/days").once("value", function(finput) {
+//           if (finput.key == daykey) {
+//             var count = 0;
+//             if (report) {
+//               count = 1;
+//               if (finput.val().report_count){
+//                 count = finput.val().report_count + 1;
+//               }
+//             } else {
+//               if (finput.val().report_count){
+//                 count = finput.val().report_count - 1;
+//               }
+//             }
+
+//             database.ref("users/" + user.key + "/days/" + daykey).set({
+//               date: finput.val().date,
+//               reason: finput.val().reason,
+//               xpos: finput.val().xpos,
+//               ypos: finput.val().ypos,
+//               report_count: count
+//             });
+//             // database.ref("users/" + user.key + "/badconnections").push({user: end_user});
+//           } 
+//         });
+//       })
+//     });
+//   }
+
 
 function insertNewConnection(start_user, end_user) {
   usersReference.once("value", function(snap){
@@ -143,6 +220,8 @@ function insertNewConnection(start_user, end_user) {
     });
   });
 }
+
+
 
 
 
