@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- How to create Mouse Events for D3 -->
 <html>
@@ -72,9 +73,9 @@
 
   </head>
   <body>
-  <nav class = "nav" style="float: left; margin-left: -48px; width: 106%;" class = #>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo" style="margin-left: 40px; height:40px">
+  <nav class = "nav" style="left:0px;width: 100%; position:fixed;" >
+    <div class="nav-wrapper" style="">
+      <a href="#" class="brand-logo" style="">
   <!-- Switch -->
 <!--       <div class="switch">
         <label>
@@ -92,7 +93,7 @@
         <li><a href="signup.html" style="font-size: 14px;">Sign Up</a></li>
         <li><a href="login.html" style="font-size: 14px;">Login</a></li>
         <li><a href="about.html" style="font-size: 14px;">About Moody</a></li>
-        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdkqcc_sHhJTqGcjvH1OoFuSSw6MxLN1yxorVxPp7-QpGbpig/viewform" target="_blank" style="font-size: 14px;">Contact Us</a></li>
+        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdkqcc_sHhJTqGcjvH1OoFuSSw6MxLN1yxorVxPp7-QpGbpig/viewform" target="_blank" style="font-size: 14px;">Did you like it?</a></li>
       <!--  <a href="onboarding.html" class="waves-effect waves-light btn">Need Help?</a> -->
       </ul>
     </div>
@@ -132,16 +133,13 @@
 
 
     <div id="avatarmodal" class="modal">
-      <div class="modal-content" style="width: 60%; text-align: center; margin: auto">
+      <div class="modal-content" style="width: 50%; text-align: center; margin: auto">
         <h5 id="expl_text" style="font-size: 20px">User felt this way because ...</h5>
         <h5 id="feelingreport" style="font-size: 24px">I felt sad because ....</h5>
         <h5 id="feelingreport_emoticon" style="font-size: 24px"></h5>
 
-        <div class="modal-footer canfeelbutton" style="display:inline-block; margin-right:5px">
-          <button class="btn waves-effect waves-light" type="submit" name="action" onclick="tofeelUser()" style="background-color:#ef5350"> Report
-            <i class="material-icons right">report_problem</i>
-          </button>
-          <button class="btn waves-effect waves-light" type="submit" name="action" onclick="tofeelUser()"> I feel you.
+        <div class="modal-footer canfeelbutton">
+          <button class="btn waves-effect waves-light" type="submit" name="action" onclick="tofeelUser()"> I can feel you :D
             <i class="material-icons right">send</i>
           </button>
         </div>
