@@ -46,7 +46,7 @@ function organizeNodesEdges() {
     		}
     	}
 	}
-  if (outp["links"].length == 0){
+  if (outp["links"].length < 30){
     location.reload();
   }
 
