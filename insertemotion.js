@@ -36,6 +36,8 @@ var data_y = 0;
 var mailtoavatar = {};
 var av_toname = ["Anglerfish", "Crab", "Squid", "Starfish", "Whale"]
 var daykey;
+var current_loggedin_user = -1;
+var try_count = 0;
 // make sure you take care of the firebase's latency asynchronosity
 function retrieveOneWeekData() {
   var prevdates = [];
@@ -221,14 +223,50 @@ function insertNewConnection(start_user, end_user) {
   });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+function authenticateCurrentUser() {
+  var auser = firebase.auth().currentUser;
+  if (auser) {
+    current_loggedin_user = auser.email.split("@")[0];
+    console.log(current_loggedin_user);
+  } else {
+    console.log("fail")
+  }
+}
 
+function loggedinAs(userId) {
+  $("#loggedinid").css("display", "block");
+  $("#loggedinid").text("Welcome, " + current_loggedin_user + "!"); 
+  $(".signupclass").css("display", "none");
+  $(".loginclass").css("display", "none");
+  $("#logoutbutton").css("display", "block");
+}
+
+async function arrangeLoggedinUser() {
+  while (true) {
+    await sleep(50);
+    if (current_loggedin_user == -1) {
+      authenticateCurrentUser();
+      try_count += 1;
+      if (try_count >= 30) {
+        break;
+      }
+    } else {
+      loggedinAs(current_loggedin_user)
+      break;
+    }
+  }
+}
 
 
 
 $(document).ready(function() {
   $('.modal').modal();
   //initialize firebase
+
   svg = d3.select(".emotion_graph").append("svg").attr({
     width: w,
     height: h
@@ -578,3 +616,12 @@ function paginationDateFill() {
     $("#" + map_pagination[i] + " > a").text(date);
   }
 }
+
+function log_out() {
+  firebase.auth().signOut().then(function() {
+    window.location="main.html"
+  }, function(error) {
+    console.log("error occurred")
+  });
+}
+arrangeLoggedinUser();
