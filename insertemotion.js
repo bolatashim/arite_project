@@ -239,7 +239,7 @@ function authenticateCurrentUser() {
 
 function loggedinAs(userId) {
   $("#loggedinid").css("display", "block");
-  $("#loggedinid").text("Welcome, " + current_loggedin_user + "!"); 
+  $("#loggedinid > a").text("Welcome, " + current_loggedin_user + "!"); 
   $(".signupclass").css("display", "none");
   $(".loginclass").css("display", "none");
   $("#logoutbutton").css("display", "block");
