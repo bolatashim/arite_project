@@ -542,7 +542,7 @@ function insertNewFeeling(xpos, ypos, feeling, reason) {
   usersReference.once("value", function(snap){
     snap.forEach(function(user) {
       console.log("the avatar", user.val().avatar)
-      if (user.val().avatar == avatar_index) {
+      if (user.val().email.split("@")[0] == current_loggedin_user) {
         console.log("I am right now avatar ", avatar_index, "adding to ", user.val())
         database.ref("users/" + user.key + "/days").push({
           xpos: xpos,
