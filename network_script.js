@@ -11,27 +11,44 @@ var database = firebase.database();
 var usersReference = database.ref("users");
 var expected_length = 99999;
 var connections_dict = {};
+var user_exists = {};
 var outp = {"nodes": [], "links": []};
 const CIRCLE_RADIUS = 8
 /* stores all of the edges in the connections_dict */
 /* if connections_dict[email]["empty"] is 1, it means this node has no outward edges */
 function retrieveConnections() {
   	usersReference.once("value", function(snap){
-		expected_length = snap.numChildren();
-		// console.log("expected ", expected_length, "children");
-		snap.forEach(function(user){
-			connections_dict[user.val().email] = {"empty": 1};
-			connections_dict[user.val().email]["avatar"] = user.val().avatar;
-    		database.ref("users/" + user.key + "/connections").once("value",  function(connection) { //need to change to connections after completion
+  		expected_length = snap.numChildren();
+  		// console.log("expected ", expected_length, "children");
 
-              connection.forEach(function(email) {
-        			// console.log(user.val().email, " : ", email.val().email);
-        			connections_dict[user.val().email]["empty"] = 0;
-        			connections_dict[user.val().email][email.val().email] = 1;
-    			});
-  			})
-		});
-	});
+      snap.forEach(function(user){
+  			user_exists[user.val().email] = 1
+  		});
+      snap.forEach(function(user){
+  			connections_dict[user.val().email] = {"empty": 1};
+  			connections_dict[user.val().email]["avatar"] = user.val().avatar;
+      		database.ref("users/" + user.key + "/connections").once("value",  function(connection) { //need to change to connections after completion
+
+                connection.forEach(function(email) {
+          			// console.log(user.val().email, " : ", email.val().email);
+                //if such user doesn't exist
+
+                    if(user_exists[email.val().email] == undefined){
+                      //alert("if" + email.val().email);
+                      console.log("missing connection with user:" + email.val().email)
+                      return;
+                    }
+                    else{
+                      //alert("else" + email.val().email);
+                      //return;
+
+                    }
+                    connections_dict[user.val().email]["empty"] = 0;
+                    connections_dict[user.val().email][email.val().email] = 1;
+          			});
+      			})
+      	});
+    });
 }
 
 
@@ -205,4 +222,3 @@ var simulation = d3.forceSimulation()
 together();
 
 async_draw();
-
